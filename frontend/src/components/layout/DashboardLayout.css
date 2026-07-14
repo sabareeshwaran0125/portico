@@ -1,0 +1,34 @@
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  position: relative;
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dashboard-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+@media (min-width: 769px) {
+  .sidebar-overlay {
+    display: none;
+  }
+}

@@ -1,0 +1,8 @@
+/* ConfirmModal uses .modal-overlay and .modal-content from Admin.css */
+/* This file exists as a placeholder for component-level overrides */
+
+.confirm-modal-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
