@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Bell, Check } from 'lucide-react';
 import api from '../../services/api';
-import './NotificationDropdown.css';
 
 export default function NotificationDropdown() {
   const [notifications, setNotifications] = useState([]);
@@ -55,37 +53,50 @@ export default function NotificationDropdown() {
   };
 
   return (
-    <div className="notification-wrapper" ref={dropdownRef}>
-      <button className="notification-btn" onClick={() => setIsOpen(!isOpen)}>
-        <Bell size={20} />
-        {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+    <div className="relative" ref={dropdownRef}>
+      <button 
+        className="text-secondary hover:text-primary transition-colors relative" 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24" }}>notifications</span>
+        {unreadCount > 0 && (
+          <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full"></span>
+        )}
       </button>
 
       {isOpen && (
-        <div className="notification-dropdown">
-          <div className="notification-header">
-            <h3>Notifications</h3>
+        <div className="absolute right-0 mt-3 w-80 bg-white rounded-xl shadow-lg border border-outline-variant/20 z-50 overflow-hidden">
+          <div className="p-4 border-b border-outline-variant/20 flex justify-between items-center bg-surface-bright">
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">Notifications</h3>
             {unreadCount > 0 && (
-              <button className="btn-mark-all" onClick={markAllAsRead}>
+              <button className="text-primary font-label-sm hover:underline" onClick={markAllAsRead}>
                 Mark all as read
               </button>
             )}
           </div>
-          <div className="notification-list">
+          <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
-              <p className="no-notifications">No notifications.</p>
+              <div className="p-6 text-center text-secondary font-body-sm">
+                No notifications.
+              </div>
             ) : (
-              notifications.map(notif => (
-                <div key={notif.id} className={`notification-item ${notif.read ? 'read' : 'unread'}`}>
-                  <p>{notif.message}</p>
-                  <span className="notification-time">{new Date(notif.createdAt).toLocaleString()}</span>
-                  {!notif.read && (
-                    <button className="btn-mark-read" onClick={() => markAsRead(notif.id)} title="Mark as read">
-                      <Check size={14} />
-                    </button>
-                  )}
-                </div>
-              ))
+              <div className="divide-y divide-outline-variant/10">
+                {notifications.map(notif => (
+                  <div key={notif.id} className={`p-4 transition-colors ${notif.read ? 'bg-white' : 'bg-surface-container-low'}`}>
+                    <div className="flex justify-between gap-2">
+                        <p className={`font-body-sm ${notif.read ? 'text-secondary' : 'text-on-surface font-medium'}`}>{notif.message}</p>
+                        {!notif.read && (
+                            <button className="text-primary hover:text-primary-container shrink-0" onClick={() => markAsRead(notif.id)} title="Mark as read">
+                                <span className="material-symbols-outlined text-sm">check</span>
+                            </button>
+                        )}
+                    </div>
+                    <span className="text-[10px] text-secondary/70 mt-1 block">
+                        {new Date(notif.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>

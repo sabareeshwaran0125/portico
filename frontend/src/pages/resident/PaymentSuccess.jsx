@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { CheckCircle, Download, ArrowLeft } from 'lucide-react';
 import api from '../../services/api';
 import { useToast } from '../../context/ToastContext';
 import Spinner from '../../components/common/Spinner';
@@ -19,8 +18,6 @@ export default function PaymentSuccess() {
 
   const fetchBillDetails = async () => {
     try {
-      // In a real app, you might have a specific endpoint to fetch a single bill by ID
-      // Assuming GET /resident/bills returns all bills for the user
       const res = await api.get('/resident/bills');
       const foundBill = res.data.find(b => b.id === parseInt(billId));
       if (foundBill) {
@@ -52,7 +49,7 @@ export default function PaymentSuccess() {
 
   if (loading) {
     return (
-      <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+      <div className="flex items-center justify-center min-h-[80vh]">
         <Spinner size="md" color="primary" />
       </div>
     );
@@ -60,57 +57,78 @@ export default function PaymentSuccess() {
 
   if (!bill) {
     return (
-      <div className="page-container text-center" style={{ paddingTop: '5rem' }}>
-        <h2>Bill not found</h2>
-        <button className="btn btn-outline mt-4" onClick={() => navigate('/resident/bills')}>Return to Bills</button>
+      <div className="flex flex-col items-center justify-center min-h-[80vh] text-center">
+        <h2 className="font-headline-md text-on-surface mb-4">Bill not found</h2>
+        <button 
+          className="px-6 py-2 border border-outline text-on-surface-variant rounded-lg font-label-lg hover:bg-surface-container transition-all"
+          onClick={() => navigate('/resident/bills')}
+        >
+          Return to Bills
+        </button>
       </div>
     );
   }
 
-  return (
-    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '2rem' }}>
-      <div className="card" style={{ maxWidth: '600px', width: '100%', padding: '3rem 2rem', textAlign: 'center', borderRadius: '16px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
-          <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(34, 197, 94, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <CheckCircle size={48} color="#22c55e" />
-          </div>
-        </div>
-        
-        <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem', color: 'var(--text-main)' }}>Payment Successful!</h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '2.5rem' }}>Your maintenance bill has been paid successfully.</p>
-        
-        <div style={{ backgroundColor: 'var(--bg-main)', borderRadius: '12px', padding: '1.5rem', marginBottom: '2.5rem', textAlign: 'left' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px dashed var(--border-color)' }}>
-            <span style={{ color: 'var(--text-muted)' }}>Amount Paid</span>
-            <strong style={{ fontSize: '1.25rem', color: 'var(--text-main)' }}>₹{bill.amount}</strong>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-            <span style={{ color: 'var(--text-muted)' }}>Bill Title</span>
-            <span style={{ fontWeight: '500' }}>{bill.title}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-            <span style={{ color: 'var(--text-muted)' }}>Billing Month</span>
-            <span style={{ fontWeight: '500' }}>{bill.billingMonth}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-            <span style={{ color: 'var(--text-muted)' }}>Transaction ID</span>
-            <span style={{ fontWeight: '500', fontFamily: 'monospace' }}>TXN-{Math.floor(Math.random() * 1000000000)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ color: 'var(--text-muted)' }}>Date</span>
-            <span style={{ fontWeight: '500' }}>{new Date().toLocaleDateString()}</span>
-          </div>
-        </div>
-        
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem' }} onClick={() => navigate('/resident/bills')}>
-            <ArrowLeft size={18} /> Back to Bills
-          </button>
-          <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem' }} onClick={downloadReceipt}>
-            <Download size={18} /> Download Receipt
-          </button>
-        </div>
-      </div>
+    <div className="flex items-center justify-center min-h-[60vh]">
+        {/* Transaction Success Modal Card */}
+        <section className="card max-w-lg w-full p-8 md:p-12 text-center animate-[fade-in_0.5s_ease-out,zoom-in_0.5s_ease-out]">
+            {/* Success Icon Header */}
+            <div className="flex justify-center mb-6">
+                <div className="w-20 h-20 bg-tertiary-fixed flex items-center justify-center rounded-full">
+                    <span className="material-symbols-outlined text-[48px] text-on-tertiary-fixed-variant" style={{ fontVariationSettings: "'FILL' 0" }}>check_circle</span>
+                </div>
+            </div>
+            
+            <h1 className="font-headline-lg text-headline-lg text-on-surface mb-2">Payment Successful</h1>
+            <p className="font-body-lg text-body-lg text-secondary mb-10 max-w-xs mx-auto">Your maintenance bill for {bill.billingMonth} has been paid.</p>
+            
+            {/* Transaction Details Table-like Layout */}
+            <div className="bg-surface-container-low rounded-lg p-6 mb-10 text-left">
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <span className="font-label-lg text-secondary">Transaction ID</span>
+                        <span className="font-body-md text-on-surface font-semibold uppercase">#TXN-{Math.floor(Math.random() * 1000000)}</span>
+                    </div>
+                    <div className="h-px bg-surface-container-highest"></div>
+                    <div className="flex justify-between items-center">
+                        <span className="font-label-lg text-secondary">Amount Paid</span>
+                        <span className="font-body-md text-on-surface font-semibold">₹{bill.amount.toFixed(2)}</span>
+                    </div>
+                    <div className="h-px bg-surface-container-highest"></div>
+                    <div className="flex justify-between items-center">
+                        <span className="font-label-lg text-secondary">Date</span>
+                        <span className="font-body-md text-on-surface">{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                    </div>
+                    <div className="h-px bg-surface-container-highest"></div>
+                    <div className="flex justify-between items-center">
+                        <span className="font-label-lg text-secondary">Bill Title</span>
+                        <span className="font-body-md text-on-surface">{bill.title}</span>
+                    </div>
+                </div>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="space-y-3">
+                <button 
+                  onClick={downloadReceipt}
+                  className="btn btn-primary w-full py-4 text-lg"
+                >
+                    <span className="material-symbols-outlined text-[20px]">download</span>
+                    Download Receipt
+                </button>
+                <button 
+                  onClick={() => navigate('/resident/bills')}
+                  className="btn btn-outline w-full py-4 text-lg"
+                >
+                    Back to Bills
+                </button>
+            </div>
+            
+            {/* Footer Message */}
+            <p className="mt-8 font-body-sm text-body-sm text-secondary opacity-60">
+                A confirmation email has been sent to your registered address.
+            </p>
+        </section>
     </div>
   );
 }

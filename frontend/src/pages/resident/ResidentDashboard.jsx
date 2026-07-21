@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useToast } from '../../context/ToastContext';
-import { FileText, Bell, Users, CheckCircle, XCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import '../admin/Admin.css'; // Reuse common dashboard styles
+import { useAuth } from '../../context/AuthContext';
 
 export default function ResidentDashboard() {
   const [bills, setBills] = useState([]);
@@ -11,6 +10,7 @@ export default function ResidentDashboard() {
   const [visitors, setVisitors] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useToast();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchDashboardData();
@@ -20,7 +20,7 @@ export default function ResidentDashboard() {
     try {
       const [billsRes, noticesRes, visitorsRes] = await Promise.all([
         api.get('/resident/bills'),
-        api.get('/notices'), // Note: using common endpoint mapped to /api/notices in controller
+        api.get('/notices'),
         api.get('/resident/visitors')
       ]);
       setBills(billsRes.data);
@@ -33,121 +33,154 @@ export default function ResidentDashboard() {
     }
   };
 
-  const handleVisitorApproval = async (id, status) => {
-    try {
-      await api.put(`/resident/visitors/${id}/approval?status=${status}`);
-      toast.success(`Visitor ${status.toLowerCase()} successfully`);
-      fetchDashboardData(); // Refresh list
-    } catch (error) {
-      toast.error(`Failed to ${status.toLowerCase()} visitor`);
-    }
-  };
-
-  if (loading) return <div className="page-container">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   const pendingBills = bills.filter(b => b.status === 'PENDING' || b.status === 'OVERDUE');
-  const recentNotices = notices.slice(0, 3); // Latest 3 notices
-  const pendingVisitors = visitors.filter(v => v.approvalStatus === 'PENDING');
+  const recentNotices = notices.slice(0, 3);
+  const activeVisitors = visitors.filter(v => v.approvalStatus === 'APPROVED' && v.outTime === null).length;
+  const pendingVisitorsCount = visitors.filter(v => v.approvalStatus === 'PENDING').length;
 
   return (
-    <div className="page-container">
-      <div className="page-header bg-courtyard" style={{ 
-        padding: '3rem 2rem',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--border-color)',
-        marginBottom: '2.5rem'
-      }}>
-        <h1 className="page-title">Welcome Home</h1>
-      </div>
+    <div className="w-full space-y-6">
+        {/* Hero Banner */}
+        <section className="relative h-64 rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(27,39,51,0.08)] group">
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-10"></div>
+            <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
+                style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida/AP1WRLuyEVmgWJy0viBRZoo-woZzzsI-njlhv1T6GQc7qGI-n859cYG0OqyfwjmeTkc8jIXCefdGSfJ8tER9w2NrJtKys4OUwFmaOk2A0bEFYK8cV1nnn6An5Qq1zijpchhgljgt0ooS0xzVpn0UubS2qIzZZc1U_c-5UX5ZmBc6fPXEc2i9b10DXmA1dk7HO8M3VjtRTlW09d2lsHcXc8w04Y81_moyHd946fIcc1wHm27Ba2zc_JDkP46tDDY')" }}
+            ></div>
+            <div className="relative z-20 h-full flex flex-col justify-center px-8 md:px-12">
+                <h2 className="font-display-lg text-display-lg text-white mb-2">Welcome Home, {user?.name?.split(' ')[0] || 'Resident'}</h2>
+                <p className="text-white/80 font-body-lg text-body-lg max-w-lg">Everything you need to manage your residence at Prestige Heights, all in one place.</p>
+            </div>
+        </section>
 
-      <div className="dashboard-stats" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))' }}>
-        
-        {/* Pending Visitors Card */}
-        <div className="card">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(245, 158, 11, 0.1)', color: 'var(--status-pending)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Users size={20} />
-            </div>
-            <h2 style={{ fontSize: '1.25rem' }}>Pending Visitors</h2>
-          </div>
-          
-          {pendingVisitors.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {pendingVisitors.map(visitor => (
-                <div key={visitor.id} style={{ display: 'flex', flexDirection: 'column', padding: '1rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <p style={{ fontWeight: '600' }}>{visitor.name}</p>
-                    <span className="badge badge-warning">Waiting at Gate</span>
-                  </div>
-                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>Purpose: {visitor.purpose}</p>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <button className="btn btn-primary" style={{ flex: 1, padding: '0.5rem' }} onClick={() => handleVisitorApproval(visitor.id, 'APPROVED')}>
-                      <CheckCircle size={16} /> Approve
-                    </button>
-                    <button className="btn btn-outline" style={{ flex: 1, padding: '0.5rem', color: 'var(--danger)', borderColor: 'var(--danger)' }} onClick={() => handleVisitorApproval(visitor.id, 'REJECTED')}>
-                      <XCircle size={16} /> Deny
-                    </button>
-                  </div>
+        {/* Grid Layout for Modules */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Pending Bills Card */}
+            <section className="card !p-0 flex flex-col overflow-hidden h-full">
+                <div className="p-6 border-b border-outline-variant/30 flex justify-between items-center bg-surface-bright">
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface">Pending Bills</h3>
+                    {pendingBills.length > 0 && (
+                        <span className="badge bg-primary-container/10 text-primary">
+                            {pendingBills.length} Pending
+                        </span>
+                    )}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-muted">No pending visitor requests.</p>
-          )}
+                <div className="p-0 overflow-x-auto flex-1">
+                    {pendingBills.length > 0 ? (
+                        <table className="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Due Date</th>
+                                    <th className="text-right">Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pendingBills.slice(0,3).map(bill => (
+                                    <tr key={bill.id} className="group">
+                                        <td>{bill.title}</td>
+                                        <td>{bill.dueDate}</td>
+                                        <td className="text-right font-semibold">₹{bill.amount}</td>
+                                        <td>
+                                            <span className={`badge ${bill.status === 'OVERDUE' ? 'bg-error-container text-on-error-container' : 'bg-[#fff8e1] text-[#f57f17]'}`}>
+                                                {bill.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <div className="p-8 text-center text-secondary">
+                            <span className="material-symbols-outlined text-4xl mb-2 opacity-50">task_alt</span>
+                            <p>You have no pending bills. Great job!</p>
+                        </div>
+                    )}
+                </div>
+                <div className="mt-auto p-6">
+                    <Link to="/resident/bills" className="btn btn-primary w-full py-3 justify-center min-h-[48px]">
+                        View All Bills & Pay
+                    </Link>
+                </div>
+            </section>
+
+            {/* Recent Notices Card */}
+            <section className="card !p-0 flex flex-col overflow-hidden h-full">
+                <div className="p-6 border-b border-outline-variant/30 flex justify-between items-center bg-surface-bright">
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface">Recent Notices</h3>
+                    <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24" }}>push_pin</span>
+                </div>
+                <div className="p-6 space-y-4 flex-1">
+                    {recentNotices.length > 0 ? (
+                        recentNotices.map(notice => (
+                            <Link to="/resident/notices" key={notice.id} className="block p-4 rounded-lg bg-surface-container-lowest border border-outline-variant/10 hover:border-primary-container/40 transition-colors cursor-pointer group">
+                                <div className="flex justify-between items-start mb-2">
+                                    <h4 className="font-body-lg text-body-lg font-semibold text-on-surface group-hover:text-primary transition-colors">{notice.title}</h4>
+                                    <span className="material-symbols-outlined text-outline text-sm">chevron_right</span>
+                                </div>
+                                <div className="flex items-center gap-4 text-secondary font-label-sm text-label-sm">
+                                    <span className="flex items-center gap-1">
+                                        <span className="material-symbols-outlined text-xs">timer</span>
+                                        Expires: {notice.expiryDate}
+                                    </span>
+                                </div>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="text-center text-secondary py-4">No recent notices.</div>
+                    )}
+                </div>
+                <div className="mt-auto p-6 border-t border-outline-variant/10">
+                    <Link to="/resident/notices" className="btn btn-outline w-full py-3 justify-center min-h-[48px]">
+                        View All Notices
+                    </Link>
+                </div>
+            </section>
         </div>
 
-        <div className="card">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(239, 68, 68, 0.1)', color: 'var(--danger)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FileText size={20} />
-            </div>
-            <h2 style={{ fontSize: '1.25rem' }}>Pending Bills</h2>
-          </div>
-          
-          {pendingBills.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {pendingBills.map(bill => (
-                <div key={bill.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)' }}>
-                  <div>
-                    <p style={{ fontWeight: '600' }}>{bill.title}</p>
-                    <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Due: {bill.dueDate}</p>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <p style={{ fontWeight: '700', color: 'var(--danger)' }}>₹{bill.amount}</p>
-                    <span className={`badge ${bill.status === 'OVERDUE' ? 'badge-danger' : 'badge-warning'}`}>{bill.status}</span>
-                  </div>
+        {/* Bento Mini Grid (Quick Stats) */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-8">
+            <div className="card bg-[#1B3358] text-white">
+                <p className="font-label-md text-label-md text-white/60 mb-2">Pending Visitors</p>
+                <div className="flex items-end justify-between">
+                    <span className="text-4xl font-bold">{String(pendingVisitorsCount).padStart(2, '0')}</span>
+                    <span className="material-symbols-outlined opacity-50">group</span>
                 </div>
-              ))}
-              <Link to="/resident/bills" className="btn btn-outline" style={{ marginTop: '0.5rem' }}>View All Bills & Pay</Link>
             </div>
-          ) : (
-            <p className="text-muted">You have no pending bills. Great job!</p>
-          )}
-        </div>
-
-        <div className="card">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(79, 70, 229, 0.1)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Bell size={20} />
-            </div>
-            <h2 style={{ fontSize: '1.25rem' }}>Recent Notices</h2>
-          </div>
-          
-          {recentNotices.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {recentNotices.map(notice => (
-                <div key={notice.id} style={{ padding: '1rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)' }}>
-                  <p style={{ fontWeight: '600', marginBottom: '0.25rem' }}>{notice.title}</p>
-                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Expires: {notice.expiryDate}</p>
+            
+            <div className="card">
+                <p className="font-label-md text-label-md text-secondary mb-2">Active Visitors</p>
+                <div className="flex items-end justify-between">
+                    <span className="text-4xl font-bold text-on-surface">{String(activeVisitors).padStart(2, '0')}</span>
+                    <span className="material-symbols-outlined text-primary">emoji_people</span>
                 </div>
-              ))}
-              <Link to="/resident/notices" className="btn btn-outline" style={{ marginTop: '0.5rem' }}>View All Notices</Link>
             </div>
-          ) : (
-            <p className="text-muted">No recent notices.</p>
-          )}
-        </div>
-      </div>
+            
+            <div className="card">
+                <p className="font-label-md text-label-md text-secondary mb-2">Pending Bills</p>
+                <div className="flex items-end justify-between">
+                    <span className="text-4xl font-bold text-on-surface">{String(pendingBills.length).padStart(2, '0')}</span>
+                    <span className="material-symbols-outlined text-amber-500">pending_actions</span>
+                </div>
+            </div>
+            
+            <div className="card bg-primary text-white">
+                <p className="font-label-md text-label-md text-white/60 mb-2">Total Notices</p>
+                <div className="flex items-end justify-between">
+                    <span className="text-4xl font-bold">{String(notices.length).padStart(2, '0')}</span>
+                    <span className="material-symbols-outlined opacity-50">campaign</span>
+                </div>
+            </div>
+        </section>
     </div>
   );
 }

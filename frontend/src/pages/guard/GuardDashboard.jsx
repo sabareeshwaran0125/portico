@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useToast } from '../../context/ToastContext';
-import { CheckCircle, LogOut } from 'lucide-react';
-import '../admin/Admin.css';
 
 export default function GuardDashboard() {
   const [expectedVisitors, setExpectedVisitors] = useState([]);
@@ -45,21 +43,23 @@ export default function GuardDashboard() {
   };
 
   return (
-    <div className="page-container">
-      <div className="page-header bg-gate" style={{
-        padding: '3rem 2rem',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--border-color)',
-        marginBottom: '2.5rem'
-      }}>
-        <h1 className="page-title">Today's Expected Visitors</h1>
+    <div className="w-full space-y-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <div>
+            <nav className="flex items-center gap-2 text-secondary mb-2">
+                <span className="font-label-md">Guard Portal</span>
+                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                <span className="font-label-md text-primary">Dashboard</span>
+            </nav>
+            <h2 className="font-headline-lg text-on-surface">Today's Expected Visitors</h2>
+        </div>
       </div>
 
-      <div className="card table-container">
+      <div className="card !p-0 overflow-x-auto">
         {loading ? (
-          <p className="p-4">Loading visitors...</p>
+          <p className="p-4 text-secondary">Loading visitors...</p>
         ) : (
-          <table>
+          <table className="data-table">
             <thead>
               <tr>
                 <th>Visitor Name</th>
@@ -79,29 +79,29 @@ export default function GuardDashboard() {
                   <td>{v.flatDetails}</td>
                   <td>
                     {!v.entryTime ? (
-                      <span className="badge badge-warning">Awaiting Entry</span>
+                      <span className="badge bg-amber-100 text-amber-800">Awaiting Entry</span>
                     ) : !v.exitTime ? (
-                      <span className="badge badge-success">Checked In</span>
+                      <span className="badge bg-green-100 text-green-800">Checked In</span>
                     ) : (
-                      <span className="badge">Checked Out</span>
+                      <span className="badge bg-surface-container-highest text-on-surface-variant">Checked Out</span>
                     )}
                   </td>
                   <td style={{ display: 'flex', gap: '0.5rem' }}>
                     {!v.entryTime && (
-                      <button className="btn btn-primary" style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }} onClick={() => handleEntry(v.id)}>
-                        <CheckCircle size={14} /> Log Entry
+                      <button className="btn btn-primary btn-sm flex items-center gap-1" onClick={() => handleEntry(v.id)}>
+                        <span className="material-symbols-outlined text-[16px]">login</span> Log Entry
                       </button>
                     )}
                     {v.entryTime && !v.exitTime && (
-                      <button className="btn btn-outline" style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }} onClick={() => handleExit(v.id)}>
-                        <LogOut size={14} /> Log Exit
+                      <button className="btn btn-outline btn-sm flex items-center gap-1" onClick={() => handleExit(v.id)}>
+                        <span className="material-symbols-outlined text-[16px]">logout</span> Log Exit
                       </button>
                     )}
                   </td>
                 </tr>
               ))}
               {expectedVisitors.length === 0 && (
-                <tr><td colSpan="6" className="text-center empty-state" style={{ height: '100px' }}>No expected visitors for today.</td></tr>
+                <tr><td colSpan="6" className="text-center py-10 text-secondary">No expected visitors for today.</td></tr>
               )}
             </tbody>
           </table>

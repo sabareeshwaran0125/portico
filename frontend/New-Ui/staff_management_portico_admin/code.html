@@ -1,0 +1,583 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Portico | Users &amp; Staff Management</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,400;600;700&amp;display=swap" rel="stylesheet">
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#3a0a00",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#ffb59f",
+                        "on-primary": "#ffffff",
+                        "background": "#f8f9fb",
+                        "tertiary-fixed": "#9af3de",
+                        "surface-tint": "#a13f1f",
+                        "outline-variant": "#ddc0b8",
+                        "on-secondary-container": "#42587f",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#b9cffd",
+                        "on-background": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#005144",
+                        "tertiary": "#006b5b",
+                        "tertiary-container": "#4ba491",
+                        "on-surface": "#191c1e",
+                        "secondary-fixed-dim": "#b0c7f4",
+                        "secondary-fixed": "#d6e3ff",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-container": "#00352c",
+                        "surface-bright": "#f8f9fb",
+                        "secondary": "#485f86",
+                        "on-primary-container": "#5a1500",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "surface": "#f8f9fb",
+                        "on-secondary-fixed": "#001b3e",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "primary": "#a13f1f",
+                        "on-tertiary-fixed": "#00201a",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-secondary-fixed-variant": "#30476d",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed-dim": "#7ed6c2",
+                        "primary-fixed-dim": "#ffb59f",
+                        "primary-fixed": "#ffdbd1",
+                        "primary-container": "#e8734f",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#57423c",
+                        "outline": "#8a726b",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#822809"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "header-height": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "sidebar-width": "280px",
+                        "base": "4px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["IBM Plex Sans"],
+                        "label-lg": ["IBM Plex Sans"],
+                        "headline-md": ["\"Source Serif 4\""],
+                        "headline-sm": ["\"Source Serif 4\""],
+                        "body-lg": ["IBM Plex Sans"],
+                        "label-sm": ["IBM Plex Sans"],
+                        "display-lg-mobile": ["\"Source Serif 4\""],
+                        "display-lg": ["\"Source Serif 4\""],
+                        "body-md": ["IBM Plex Sans"],
+                        "headline-lg": ["\"Source Serif 4\""],
+                        "body-sm": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #f8f9fb; }
+        .sidebar-indigo { background-color: #1B3358; }
+        .coral-accent { background-color: #E8734F; }
+        .text-coral { color: #E8734F; }
+        .border-coral { border-color: #E8734F; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active {
+            color: #E8734F !important;
+            border-left: 4px solid #E8734F;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .custom-shadow {
+            box-shadow: 0px 4px 12px rgba(27, 39, 51, 0.08);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[280px] sidebar-indigo flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Portico Management</h1>
+<p class="font-label-sm text-surface-variant/60 uppercase tracking-widest mt-1">Prestige Heights</p>
+</div>
+<nav class="flex-1 space-y-1 px-2">
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:bg-white/10 transition-all font-label-lg group" href="#">
+<span class="mr-3 font-mono text-[10px] opacity-50">01</span>
+<span class="material-symbols-outlined mr-3">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center px-4 py-3 sidebar-active text-surface-variant font-label-lg group" href="#">
+<span class="mr-3 font-mono text-[10px] text-coral">02</span>
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">groups</span>
+                Residents
+            </a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:bg-white/10 transition-all font-label-lg group" href="#">
+<span class="mr-3 font-mono text-[10px] opacity-50">03</span>
+<span class="material-symbols-outlined mr-3">receipt_long</span>
+                Billing
+            </a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:bg-white/10 transition-all font-label-lg group" href="#">
+<span class="mr-3 font-mono text-[10px] opacity-50">04</span>
+<span class="material-symbols-outlined mr-3">report_problem</span>
+                Complaints
+            </a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:bg-white/10 transition-all font-label-lg group" href="#">
+<span class="mr-3 font-mono text-[10px] opacity-50">05</span>
+<span class="material-symbols-outlined mr-3">security</span>
+                Visitor Log
+            </a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:bg-white/10 transition-all font-label-lg group" href="#">
+<span class="mr-3 font-mono text-[10px] opacity-50">06</span>
+<span class="material-symbols-outlined mr-3">event_available</span>
+                Facility Booking
+            </a>
+</nav>
+<div class="mt-auto px-4 border-t border-white/10 pt-4">
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:text-surface-variant transition-colors font-label-md" href="#">
+<span class="material-symbols-outlined mr-3">account_circle</span>
+                Profile
+            </a>
+<a class="flex items-center px-4 py-3 text-error/80 hover:text-error transition-colors font-label-md" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Wrapper -->
+<main class="ml-[280px] min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="h-16 flex justify-between items-center px-8 sticky top-0 bg-surface-bright/80 backdrop-blur-md z-40 border-b border-outline-variant/30">
+<div class="flex items-center space-x-2 text-on-surface">
+<span class="font-headline-sm text-headline-sm">Portico</span>
+<span class="text-outline">/</span>
+<span class="font-label-lg text-label-lg text-secondary">Staff Management</span>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-secondary hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center space-x-3 cursor-pointer group">
+<div class="text-right">
+<p class="font-label-md text-on-surface">Alexander Vance</p>
+<p class="font-label-sm text-outline">Estate Manager</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-coral p-0.5">
+<img class="w-full h-full rounded-full object-cover" data-alt="A professional headshot of a middle-aged man with sharp features, wearing a tailored charcoal grey suit and a white shirt. He is standing in a brightly lit, modern corporate lobby with clean architectural lines and soft ambient lighting. The atmosphere is sophisticated, authoritative, and warm, consistent with a premium property management aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY-I7eE-S6F0ticwnFIx6qINaZNaOOmspK30vx5E9UvIVXXyS-WB1C1J5hoKWwy-suekdxmhS11rc4y98koemE0gUK77ip0C139hJjWlr_mBaV_I8CGyCaVR3pDM4-FrgV6xigIqBUZ_x124dmoBdgOYF-AUQBDzRZc28hoKqn4dQ3nICQkeM-3rIWPxwo2Do9T2_X4yIwJ_FEb1pOK3Thx_2fJJWlyF0JWMlqf5sokytkncE2HPmD8ZdCMBQ-Gp7QPmmcaiGiz3LB">
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="px-8 py-6 max-w-[1400px] mx-auto w-full grid grid-cols-12 gap-8">
+<!-- Page Header -->
+<div class="col-span-12 flex justify-between items-end mb-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Users &amp; Staff Management</h2>
+<p class="text-secondary font-body-md">Oversee personnel records, manage duty rosters, and track performance logs.</p>
+</div>
+<button class="coral-accent text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:opacity-90 active:scale-[0.98] transition-all custom-shadow font-label-lg">
+<span class="material-symbols-outlined">person_add</span>
+<span class="">Add New User/Staff</span>
+</button>
+</div>
+<!-- Overview Bento -->
+<div class="col-span-12 lg:col-span-3">
+<div class="bg-white p-6 rounded-xl custom-shadow h-full border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 rounded-lg bg-secondary-container/30 flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<span class="text-coral font-bold text-label-sm uppercase tracking-tighter">Capacity 85%</span>
+</div>
+<p class="text-secondary font-label-md">Total Staff</p>
+<h3 class="text-display-lg-mobile font-headline-lg text-on-surface mt-1">42</h3>
+<p class="text-tertiary font-label-sm mt-2 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                        +3 from last month
+                    </p>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-3">
+<div class="bg-white p-6 rounded-xl custom-shadow h-full border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<span class="text-tertiary font-bold text-label-sm uppercase tracking-tighter">Current Shift</span>
+</div>
+<p class="text-secondary font-label-md">Active Guards</p>
+<h3 class="text-display-lg-mobile font-headline-lg text-on-surface mt-1">12</h3>
+<p class="text-outline font-label-sm mt-2 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">schedule</span>
+                        Until 18:00
+                    </p>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-3">
+<div class="bg-white p-6 rounded-xl custom-shadow h-full border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 rounded-lg bg-on-secondary-container/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">build</span>
+</div>
+<span class="text-secondary font-bold text-label-sm uppercase tracking-tighter">Available</span>
+</div>
+<p class="text-secondary font-label-md">Maintenance Crew</p>
+<h3 class="text-display-lg-mobile font-headline-lg text-on-surface mt-1">08</h3>
+<p class="text-outline font-label-sm mt-2 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">pending_actions</span>
+                        4 tasks active
+                    </p>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-3">
+<div class="bg-white p-6 rounded-xl custom-shadow h-full border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 rounded-lg bg-error-container/40 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<span class="text-error font-bold text-label-sm uppercase tracking-tighter">Action Required</span>
+</div>
+<p class="text-secondary font-label-md">Pending Background Checks</p>
+<h3 class="text-display-lg-mobile font-headline-lg text-on-surface mt-1">03</h3>
+<p class="text-error font-label-sm mt-2 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">report</span>
+                        Due in 48h
+                    </p>
+</div>
+</div>
+<!-- Filters -->
+<div class="col-span-12 bg-white rounded-xl custom-shadow p-6 border border-outline-variant/20 flex flex-wrap gap-4 items-center">
+<div class="flex-1 relative min-w-[240px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-1 focus:ring-coral-accent focus:border-coral-accent outline-none font-body-sm transition-all" placeholder="Search staff name, ID or role..." type="text">
+</div>
+<div class="flex items-center space-x-2">
+<label class="text-label-sm text-outline uppercase font-bold">Role:</label>
+<select class="bg-white border border-outline-variant rounded-lg px-4 py-2 font-label-md focus:ring-1 focus:ring-coral-accent outline-none">
+<option>All Roles</option>
+<option>Guard</option>
+<option>Maintenance</option>
+<option>Admin</option>
+<option>Resident</option>
+</select>
+</div>
+<div class="flex items-center space-x-2">
+<label class="text-label-sm text-outline uppercase font-bold">Status:</label>
+<select class="bg-white border border-outline-variant rounded-lg px-4 py-2 font-label-md focus:ring-1 focus:ring-coral-accent outline-none">
+<option>All Status</option>
+<option>Active</option>
+<option>Off-duty</option>
+<option>On-leave</option>
+</select>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-container-highest px-4 py-2 rounded-lg text-on-surface font-label-md transition-colors flex items-center space-x-2">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="">More Filters</span>
+</button>
+</div>
+<!-- Main Data Table -->
+<div class="col-span-12 xl:col-span-9 bg-white rounded-xl custom-shadow border border-outline-variant/20 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-outline font-label-sm uppercase tracking-wider">
+<th class="px-6 py-4 font-bold border-b border-outline-variant/30">Staff Name</th>
+<th class="px-6 py-4 font-bold border-b border-outline-variant/30">Role</th>
+<th class="px-6 py-4 font-bold border-b border-outline-variant/30">Employee ID</th>
+<th class="px-6 py-4 font-bold border-b border-outline-variant/30">Shift</th>
+<th class="px-6 py-4 font-bold border-b border-outline-variant/30">Status</th>
+<th class="px-6 py-4 font-bold border-b border-outline-variant/30 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A detailed portrait of a security officer in a neat, professional navy blue uniform with a gold badge. The background is a clean, modern apartment lobby with marble floors and soft architectural lighting. The officer has a calm, vigilant expression, embodying reliability and safety in a high-end residential setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXclgcOJyBSzZ6j8JJuVgQzGCoqi4GKfOc0O8vZ4QZIGwdfEnGhIKkpNWtPSMAwgAKEJW2VyRvPfqNUt45tH6xSM2DMMb2zeR0joVrsqIhKS0WUQ1op4ZYgRJnZ5ZiFYq9WK6RqJjn0pWnk7HHbhaJuVNVnEAOy2WpOF7WJ82w_aNY8kTfCHRc5rN3xdXjOtUmUaagiHyNJFEHqRmcYlF9gyFRHCCfLPs8zeWD-7q46P22YTg-gQn34VvQ6kYdh4ayQQVRYrf38hAr">
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Elena Rodriguez</p>
+<p class="font-label-sm text-outline">+1 555-0102</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-label-md text-secondary">Chief Security</td>
+<td class="px-6 py-4 font-mono text-label-sm text-outline">PH-G0842</td>
+<td class="px-6 py-4 font-label-md text-on-surface">Morning (06:00 - 14:00)</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary font-label-sm uppercase">Active</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="text-coral hover:underline font-label-md">View/Edit</button>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px] align-middle">receipt_long</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close-up of a maintenance technician with a friendly, professional smile, wearing a branded light grey polo shirt. He is holding a digital tablet in a clean, brightly lit corridor of a luxury building. The scene captures a sense of modern efficiency and meticulous care, with soft shadows and warm coral lighting accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK35SGMss3QPNgTjgOr0OWT0M39CshHJvi_2SC_cVu6mIiFdclvhhLHX_4y9XgWe42wi9RkdL8UnGzP3rtmIUW2hsUFYN7MHg6a7zxPwf7CuCEkLikXdkmc7awf2Uh1xFuSaBkxB2dgZ47PHDsPEwnvYJv1w0nYtdgr4IYIKWtFkmQiStGpDbhex5Z92eOKS2IU_TGRvp1qfAJ1alLUuQYAa7BHZS6TT7_7AMDq6UoQC7s7cxIrWYL5bIrWfY8HpHzBLaJmxkzgX3s">
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Samuel Okonjo</p>
+<p class="font-label-sm text-outline">+1 555-0128</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-label-md text-secondary">Lead Maintenance</td>
+<td class="px-6 py-4 font-mono text-label-sm text-outline">PH-M1205</td>
+<td class="px-6 py-4 font-label-md text-on-surface">Regular (09:00 - 17:00)</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary font-label-sm uppercase">Active</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="text-coral hover:underline font-label-md">View/Edit</button>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px] align-middle">receipt_long</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Detailed studio-style portrait of a professional woman with a confident posture, wearing a sleek black blazer. The lighting is editorial and sophisticated, with a warm-toned neutral background. She looks capable and authoritative, representing an administrative role in a luxury property management context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWLhRpNz6muN0mp54LNFjV9HoWWLSeBtZ7kHmMAyHKLOs1s4IiAEtHHjosnsKJ81N4tmMRU_ZlMqLJp5NrdZzfaMGCKMYtDaKaFF6vl07EWa853AVj90CzI9I5zkS3jCI50ylHk5OsDvfxpMqD7_sv6dSgu_jnLc8PUm6M6CXTWdw4xHMazZMMFFfIK7Tappu9-gkqxdz2xOWyxkINLcslYjsW8xcaAeyb1M78fwYPYHjbheYTHe-hUXtIrwYoPIWakARgOFRZdsxA">
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Maya Sterling</p>
+<p class="font-label-sm text-outline">+1 555-0199</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-label-md text-secondary">Admin Coordinator</td>
+<td class="px-6 py-4 font-mono text-label-sm text-outline">PH-A0331</td>
+<td class="px-6 py-4 font-label-md text-on-surface">Morning (08:00 - 16:00)</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded bg-surface-variant text-secondary font-label-sm uppercase">Off-duty</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="text-coral hover:underline font-label-md">View/Edit</button>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px] align-middle">receipt_long</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A focused male concierge staff member in a professional charcoal vest and white shirt, standing behind a polished wood desk. The lighting is soft and inviting, highlighting a warm corporate atmosphere. He is looking slightly off-camera with a helpful expression. The setting is a minimalist, modern lobby of a high-end residence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNzfhpPzrsjhbbIjkCFSAGZl9RMiVdLjkzGbDWQ9HphqNEBgE1GkeeypDNm3f3gUSKnOIZTKw2xt29lBp_BUiU2Qub6b7B_gqWmTRSUHrW38abjAahvFh9UsZkssnoOozdN7Td9G2lcdU69rtiM-9sIiYn1ftA_qj0S9DYA7I_YldRaIppEqZa3R30ejK_gGqhUWLLCQ7QkkVWSiN4jDDT1E_IwthUQHISUhnJfl5V8RZqhPhJ1FqMJ6LgmebTekgnpeu_3YRnvjKc">
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Jameson Burke</p>
+<p class="font-label-sm text-outline">+1 555-0211</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-label-md text-secondary">Concierge Service</td>
+<td class="px-6 py-4 font-mono text-label-sm text-outline">PH-C0722</td>
+<td class="px-6 py-4 font-label-md text-on-surface">Evening (14:00 - 22:00)</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary font-label-sm uppercase">Active</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="text-coral hover:underline font-label-md">View/Edit</button>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px] align-middle">receipt_long</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group border-b-0">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of a young man with a focused and intelligent expression, wearing a dark polo shirt. The environment is an industrial-chic office space with glass walls and warm accent lighting. He represents a modern technician or supervisor in a high-tech building management setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9JADbnxVuVRBCT0i1RpvC4LURAYXuW39y6PSBvysP4ayOMaye7WowWAUYOKDmBkvPxSxwVt5KwacS3qbSVbBWrwZxhdrTWvOr8H2D9GN-N6dDp-SYEefq8w-v7mkro9GG6JUFu_OcSlJN2MFlYIZZrFkdWtzstvrMliEagUA0nU9YWQe0Kvnhv3v_ph8A0iW41saYil5KbzLFmRKu9KfNlKrlKQxMfBKl27IXxnkxSiwY5HuQLhCAVn-aR9GPf5ujb7BBvhTJvERp">
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">David Chen</p>
+<p class="font-label-sm text-outline">+1 555-0344</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-label-md text-secondary">System Admin</td>
+<td class="px-6 py-4 font-mono text-label-sm text-outline">PH-A0552</td>
+<td class="px-6 py-4 font-label-md text-on-surface">Night (22:00 - 06:00)</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded bg-error-container/40 text-error font-label-sm uppercase">On-leave</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="text-coral hover:underline font-label-md">View/Edit</button>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px] align-middle">receipt_long</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 bg-surface-container-low flex justify-between items-center px-6">
+<p class="text-label-sm text-outline">Showing 5 of 42 results</p>
+<div class="flex space-x-2">
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center hover:bg-white transition-colors"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="w-8 h-8 rounded bg-coral-accent text-white flex items-center justify-center text-label-sm">1</button>
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center hover:bg-white transition-colors text-label-sm">2</button>
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center hover:bg-white transition-colors text-label-sm">3</button>
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center hover:bg-white transition-colors"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Sidebar Widget -->
+<div class="col-span-12 xl:col-span-3 space-y-6">
+<!-- Quick Actions Widget -->
+<div class="bg-white rounded-xl custom-shadow p-6 border border-outline-variant/20">
+<h4 class="font-headline-sm text-on-surface mb-4">Quick Actions</h4>
+<div class="space-y-3">
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all group">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-coral mr-3">campaign</span>
+<span class="font-label-md text-on-surface">Broadcast to Staff</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all group">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-secondary mr-3">calendar_month</span>
+<span class="font-label-md text-on-surface">Roster Management</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-error-container/10 border border-error/10 hover:bg-error-container/20 transition-all group">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-error mr-3">contact_phone</span>
+<span class="font-label-md text-error">Emergency Contact List</span>
+</div>
+<span class="material-symbols-outlined text-error/50 group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+<!-- Recent Activity Feed -->
+<div class="bg-white rounded-xl custom-shadow p-6 border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-headline-sm text-on-surface">Recent Logs</h4>
+<button class="text-coral font-label-sm hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+<div class="flex space-x-3 relative">
+<div class="w-0.5 bg-outline-variant absolute left-[15px] top-8 h-full"></div>
+<div class="w-8 h-8 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 z-10">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface">Elena Rodriguez checked in</p>
+<p class="text-label-sm text-outline">Today, 05:58 AM</p>
+</div>
+</div>
+<div class="flex space-x-3 relative">
+<div class="w-0.5 bg-outline-variant absolute left-[15px] top-8 h-full"></div>
+<div class="w-8 h-8 rounded-full bg-secondary-container/20 flex items-center justify-center flex-shrink-0 z-10">
+<span class="material-symbols-outlined text-secondary text-[18px]">edit</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface">Roster updated for Zone B</p>
+<p class="text-label-sm text-outline">Yesterday, 11:42 PM</p>
+</div>
+</div>
+<div class="flex space-x-3">
+<div class="w-8 h-8 rounded-full bg-error-container/20 flex items-center justify-center flex-shrink-0 z-10">
+<span class="material-symbols-outlined text-error text-[18px]">warning</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface">Unscheduled absence: Mark S.</p>
+<p class="text-label-sm text-outline">Yesterday, 10:15 PM</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Performance Spotlight (Editorial Touch) -->
+<div class="relative rounded-xl overflow-hidden custom-shadow group aspect-square">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic, high-contrast photograph of a smiling female security supervisor standing proudly in front of a modern glass skyscraper during sunset. Warm amber light reflects off the architectural surfaces, creating a premium and inspiring mood. She wears a professional uniform and looks towards the future, symbolizing excellence and leadership within the property management team." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBRWLz-yreaZvtaG8qs_W1N2tONYpui4fk_s2uSdAP0I1_0e_AT3Vd0TwzPXjtIHs4fQ8QRlwuv1X-KqyE0f9_oKNXZ8SMcdFCCHdjUg6eRTTEViQ_q1ykLwg6WbXk0VDiJ9yFTnlv30kxrblMSW06V3sasQ-uvrTN0BLzqCSCGF2Sx6vRDRKWJtuKNWcWfK3gHS5vanCCwnHcNn2rM2yObneXZJsDvAlITLruGslfOLNI7CvYqeG3DGtVV9qR53h1QRHTfspPifXV">
+<div class="absolute bottom-0 left-0 p-6 z-20">
+<span class="bg-coral-accent text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest mb-2 inline-block">Staff Spotlight</span>
+<h5 class="text-white font-headline-md leading-tight">Elena's Lead<br>on Safety Protocols</h5>
+<p class="text-white/70 text-label-sm mt-1">Voted Team Leader of the Quarter</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-auto px-8 py-6 flex justify-between items-center text-outline border-t border-outline-variant/30">
+<p class="font-label-sm">© 2024 Portico Management Systems. All rights reserved.</p>
+<div class="flex space-x-6">
+<a class="font-label-sm hover:text-on-surface transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm hover:text-on-surface transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm hover:text-on-surface transition-colors" href="#">Help Center</a>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interactions for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateX(4px)';
+                row.style.transition = 'transform 0.2s ease-out';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Search input glow effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-coral-accent/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-coral-accent/20');
+        });
+    </script>
+
+
+</body></html>

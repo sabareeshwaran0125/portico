@@ -1,0 +1,421 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Maintenance &amp; Complaints | Portico Residents</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "primary": "#a13f1f",
+                "surface-dim": "#d8dadc",
+                "surface-container-lowest": "#ffffff",
+                "tertiary-fixed-dim": "#7ed6c2",
+                "surface-bright": "#f8f9fb",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed-variant": "#30476d",
+                "secondary": "#485f86",
+                "on-primary-container": "#5a1500",
+                "on-tertiary": "#ffffff",
+                "tertiary-fixed": "#9af3de",
+                "surface-container-highest": "#e0e3e5",
+                "surface-container": "#eceef0",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed-variant": "#005144",
+                "tertiary": "#006b5b",
+                "primary-fixed": "#ffdbd1",
+                "on-tertiary-container": "#00352c",
+                "secondary-fixed": "#d6e3ff",
+                "on-surface-variant": "#57423c",
+                "on-error": "#ffffff",
+                "on-secondary": "#ffffff",
+                "error": "#ba1a1a",
+                "inverse-on-surface": "#eff1f3",
+                "on-surface": "#191c1e",
+                "inverse-primary": "#ffb59f",
+                "outline-variant": "#ddc0b8",
+                "on-primary-fixed-variant": "#822809",
+                "surface-tint": "#a13f1f",
+                "error-container": "#ffdad6",
+                "on-secondary-fixed": "#001b3e",
+                "background": "#f8f9fb",
+                "tertiary-container": "#4ba491",
+                "surface-variant": "#e0e3e5",
+                "secondary-fixed-dim": "#b0c7f4",
+                "primary-container": "#e8734f",
+                "on-primary-fixed": "#3a0a00",
+                "on-background": "#191c1e",
+                "secondary-container": "#b9cffd",
+                "on-tertiary-fixed": "#00201a",
+                "primary-fixed-dim": "#ffb59f",
+                "on-secondary-container": "#42587f",
+                "inverse-surface": "#2d3133",
+                "outline": "#8a726b",
+                "surface-container-low": "#f2f4f6",
+                "surface-container-high": "#e6e8ea",
+                "surface": "#f8f9fb"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "header-height": "64px",
+                "gutter": "24px",
+                "base": "4px",
+                "container-max": "1280px",
+                "margin-desktop": "32px",
+                "sidebar-width": "280px",
+                "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                "body-sm": ["IBM Plex Sans"],
+                "body-lg": ["IBM Plex Sans"],
+                "label-md": ["IBM Plex Sans"],
+                "label-sm": ["IBM Plex Sans"],
+                "headline-md": ["\"Source Serif 4\""],
+                "body-md": ["IBM Plex Sans"],
+                "label-lg": ["IBM Plex Sans"],
+                "display-lg": ["\"Source Serif 4\""],
+                "headline-sm": ["\"Source Serif 4\""],
+                "headline-lg": ["\"Source Serif 4\""],
+                "display-lg-mobile": ["\"Source Serif 4\""]
+            },
+            "fontSize": {
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                "label-sm": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f4f6f8;
+            color: #191c1e;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-indigo {
+            background-color: #1B3358;
+        }
+        .active-maintenance-link {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #E8734F; /* Coral primary accent */
+            border-right: 4px solid #E8734F;
+            font-weight: 700;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 12px rgba(27, 39, 51, 0.08);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e0e3e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- Persistent Left Sidebar -->
+<aside class="sidebar-indigo w-[280px] fixed h-screen flex flex-col py-8 px-6 text-secondary-fixed-dim z-50 w-72">
+<div class="mb-12">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Portico Residents</h1>
+<p class="font-label-md text-label-md opacity-60 mt-1 uppercase tracking-widest">Tower A - 402</p>
+</div>
+<nav class="flex-grow space-y-2">
+<a class="flex items-center gap-4 py-3 px-4 rounded-sm transition-colors hover:bg-white/10 group" href="#">
+<span class="font-label-sm opacity-40 group-hover:opacity-100">01</span>
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-sm transition-colors hover:bg-white/10 group" href="#">
+<span class="font-label-sm opacity-40 group-hover:opacity-100">02</span>
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+<span class="font-label-lg text-label-lg">Payments</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-sm transition-colors hover:bg-white/10 group" href="#">
+<span class="font-label-sm opacity-40 group-hover:opacity-100">03</span>
+<span class="material-symbols-outlined text-lg" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-lg text-label-lg">Bills</span>
+</a>
+<!-- Maintenance (Active) -->
+<a class="flex items-center gap-4 py-3 px-4 active-maintenance-link group" href="#">
+<span class="font-label-sm opacity-60">04</span>
+<span class="material-symbols-outlined text-lg" data-icon="handyman" style="font-variation-settings: 'FILL' 1;">handyman</span>
+<span class="font-label-lg text-label-lg">Maintenance</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-sm transition-colors hover:bg-white/10 group" href="#">
+<span class="font-label-sm opacity-40 group-hover:opacity-100">05</span>
+<span class="material-symbols-outlined text-lg" data-icon="person">person</span>
+<span class="font-label-lg text-label-lg">Profile</span>
+</a>
+</nav>
+<div class="mt-auto pt-8 border-t border-white/10">
+<button class="w-full bg-primary-container text-white py-3 rounded-lg font-label-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="account_balance_wallet">account_balance_wallet</span>
+                Quick Pay
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-grow ml-[280px] ml-72">
+<!-- Top App Bar -->
+<header class="h-header-height bg-surface flex items-center justify-between sticky top-0 z-40 px-8">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">Portico</span>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-body-md" data-icon="search">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 w-72 text-body-sm focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="Search maintenance history..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</div>
+<div class="flex items-center gap-3 pl-4 border-l border-surface-container-highest">
+<div class="text-right">
+<p class="font-label-lg text-label-lg leading-none">Arjun Mehta</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Resident User</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional headshot of a middle-aged South Asian man with a friendly smile, clean-shaven, wearing a tailored navy blazer over a crisp white shirt. The portrait is set against a soft, out-of-focus modern office interior with warm ambient lighting. The style is professional and high-quality, reflecting a premium corporate identity with soft tonal shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc-eKXKXB-T3xiDAOFhWJCGN8D2lVxt6Lnj2CPUOGcFhGKn-3Ap_H8VrnVpp39zKpvWrrmxPJx7QzNA4Wuxojk11_H3B_DhNY8i1VCOiHGNTgsDq71xOKym42ngBpqJdJAZ3joDh5EAiIYqjg37aURru1_qTtyiPC1Ag_o5IVkchNJHQNZNkUIf6kdaZ_OCfe8CNAi8ThBEh9HVrwcFZIzIm4qek8A5wAOoVaOnx_air31twqnxxzZbxcWvRrsqMXqCMsmhA47ustq">
+</div>
+</div>
+</div>
+</header>
+<!-- Main Scrollable Canvas -->
+<main class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 px-8 py-6">
+<!-- Page Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Maintenance &amp; Complaints</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                        Manage your property issues efficiently. Report new complaints, track progress of ongoing repairs, and review your maintenance history in one place.
+                    </p>
+</div>
+<button class="bg-primary-container text-white px-8 py-4 rounded-lg font-label-lg text-label-lg flex items-center gap-3 card-shadow hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                    + Raise New Complaint
+                </button>
+</section>
+<!-- Status Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+<div class="bg-white p-8 rounded-xl card-shadow border-l-4 border-error relative overflow-hidden group">
+<div class="absolute right-[-10px] bottom-[-10px] text-error/5 group-hover:text-error/10 transition-colors">
+<span class="material-symbols-outlined text-[80px]" data-icon="assignment_late">assignment_late</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-2">Open Issues</p>
+<div class="flex items-baseline gap-2">
+<h3 class="font-display-lg text-display-lg text-on-surface">02</h3>
+<span class="text-error font-label-md text-label-md bg-error-container/20 px-2 py-0.5 rounded flex items-center gap-1">
+                            Urgent
+                        </span>
+</div>
+</div>
+<div class="bg-white p-8 rounded-xl card-shadow border-l-4 border-secondary relative overflow-hidden group">
+<div class="absolute right-[-10px] bottom-[-10px] text-secondary/5 group-hover:text-secondary/10 transition-colors">
+<span class="material-symbols-outlined text-[80px]" data-icon="sync">sync</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-2">In Progress</p>
+<h3 class="font-display-lg text-display-lg text-on-surface">04</h3>
+</div>
+<div class="bg-white p-8 rounded-xl card-shadow border-l-4 border-tertiary relative overflow-hidden group">
+<div class="absolute right-[-10px] bottom-[-10px] text-tertiary/5 group-hover:text-tertiary/10 transition-colors">
+<span class="material-symbols-outlined text-[80px]" data-icon="task_alt">task_alt</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-2">Resolved (MTD)</p>
+<h3 class="font-display-lg text-display-lg text-on-surface">12</h3>
+</div>
+</section>
+<!-- Recent Complaints Table Section -->
+<section class="bg-white rounded-xl card-shadow overflow-hidden">
+<div class="px-8 py-6 border-b border-surface-container flex justify-between items-center bg-white">
+<h3 class="font-headline-sm text-headline-sm">Recent Complaints</h3>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full border-collapse text-left">
+<thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md border-b border-surface-container-highest">
+<tr>
+<th class="px-8 py-4 font-semibold uppercase tracking-wider">Complaint ID</th>
+<th class="px-8 py-4 font-semibold uppercase tracking-wider">Category</th>
+<th class="px-8 py-4 font-semibold uppercase tracking-wider">Description</th>
+<th class="px-8 py-4 font-semibold uppercase tracking-wider">Date Filed</th>
+<th class="px-8 py-4 font-semibold uppercase tracking-wider text-center">Status</th>
+<th class="px-8 py-4 font-semibold uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-highest text-body-sm font-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5 font-semibold text-primary-container">#PRT-2024-089</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg opacity-40" data-icon="plumbing">plumbing</span>
+                                        Plumbing
+                                    </div>
+</td>
+<td class="px-8 py-5 max-w-xs truncate text-on-surface-variant">Water leakage in master bathroom ceiling near the lighting fixture...</td>
+<td class="px-8 py-5">Oct 24, 2024</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm inline-block">Open</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline font-label-lg">View Details</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5 font-semibold text-primary-container">#PRT-2024-072</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg opacity-40" data-icon="electrical_services">electrical_services</span>
+                                        Electrical
+                                    </div>
+</td>
+<td class="px-8 py-5 max-w-xs truncate text-on-surface-variant">Circuit breaker tripping repeatedly in the kitchen when using microwave...</td>
+<td class="px-8 py-5">Oct 21, 2024</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm inline-block">In Progress</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline font-label-lg">View Details</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5 font-semibold text-primary-container">#PRT-2024-065</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg opacity-40" data-icon="hvac">hvac</span>
+                                        HVAC
+                                    </div>
+</td>
+<td class="px-8 py-5 max-w-xs truncate text-on-surface-variant">Air conditioning unit making rattling noise in living room...</td>
+<td class="px-8 py-5">Oct 18, 2024</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm inline-block">Resolved</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline font-label-lg">View Details</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5 font-semibold text-primary-container">#PRT-2024-058</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg opacity-40" data-icon="handyman">handyman</span>
+                                        Carpentry
+                                    </div>
+</td>
+<td class="px-8 py-5 max-w-xs truncate text-on-surface-variant">Main door hinge squeaking and needs realignment for proper lock...</td>
+<td class="px-8 py-5">Oct 15, 2024</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm inline-block">Resolved</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline font-label-lg">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination/Footer -->
+<div class="px-8 py-4 bg-surface-container-low/30 border-t border-surface-container flex items-center justify-between">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Showing 1-4 of 28 complaints</p>
+<div class="flex items-center gap-2">
+<button class="p-2 border border-surface-container-highest rounded-lg disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-3 py-1 bg-primary-container text-white rounded-lg font-label-sm">1</button>
+<button class="px-3 py-1 hover:bg-surface-container-highest rounded-lg font-label-sm">2</button>
+<button class="px-3 py-1 hover:bg-surface-container-highest rounded-lg font-label-sm">3</button>
+<button class="p-2 border border-surface-container-highest rounded-lg hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Bottom Asymmetric Callouts -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-8">
+<div class="lg:col-span-8 bg-white p-8 rounded-xl card-shadow flex gap-8 items-center border-t-2 border-primary-container">
+<div class="hidden sm:block w-32 h-32 flex-shrink-0 bg-surface-container rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A macro close-up of high-quality maintenance tools like a sleek modern wrench and specialized screwdrivers arranged neatly on a blueprint. The scene is lit with bright, neutral lighting that accentuates the metallic textures and the architectural details of the drawing. Professional, clean, and organized aesthetic following the Portico brand guidelines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcImY3_ZHjz6gq4oOyglo0btvPwv9fTOFBlfcmKlgsGkjpEpFv4WexxP_1-I9PI8ijNPdguMZNRl_DRnZo1bY988-Ls4eVvoCLmYI7MGLkj13CGp1ZWhFxUxvsZ5_n37fjC9ihY34MQFpjxZIuoI2rWMMxRKkwJ2LAwzm7sxURdGKZpwjHLjtrMyFPaKxnF6KU4CJug_ii220Tuf_FovKl_mZLjtyqfSa83Bpb4Sh04NSlEGUwrKmf8y9B4OOqYoOMhLO2PNNdyCe2">
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Annual Maintenance Package</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Your Gold Subscription includes priority servicing and free monthly electrical checkups. Ensure your home is in peak condition.</p>
+<div class="flex gap-4">
+<button class="font-label-lg text-primary-container flex items-center gap-2 group">
+                                View Benefits 
+                                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 bg-[#1B3358] p-8 rounded-xl card-shadow text-white relative overflow-hidden">
+
+<div class="relative z-10">
+<h4 class="font-headline-sm text-headline-sm mb-4">Emergency Contact</h4>
+<p class="font-body-sm text-body-sm text-secondary-fixed-dim mb-6">Immediate pipe burst or total power failure? Call our 24/7 technical hotline.</p>
+<div class="flex flex-col gap-3">
+<a class="bg-white/10 hover:bg-white/20 px-4 py-3 rounded-lg flex items-center gap-3 transition-colors" href="tel:18005550911">
+<span class="material-symbols-outlined text-primary-container" data-icon="call">call</span>
+<span class="font-label-lg">1800-555-0911</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Micro-interaction for feedback -->
+<script>
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 1000);
+            });
+        });
+    </script>
+
+
+</body></html>

@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useToast } from '../../context/ToastContext';
-import { Bell, Trash2, Search } from 'lucide-react';
 import ConfirmModal from '../../components/ConfirmModal';
 import Spinner from '../../components/common/Spinner';
 import useDataList from '../../hooks/useDataList';
-import './Admin.css';
 
 export default function Notices() {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState({ isOpen: false, id: null, isDeleting: false });
   
@@ -20,8 +17,8 @@ export default function Notices() {
 
   const searchFilterFn = (notice, query) => {
     return !query || 
-           notice.title.toLowerCase().includes(query) || 
-           notice.content.toLowerCase().includes(query);
+           notice.title.toLowerCase().includes(query.toLowerCase()) || 
+           notice.content.toLowerCase().includes(query.toLowerCase());
   };
 
   const {
@@ -50,7 +47,6 @@ export default function Notices() {
     try {
       await api.post('/notices', formData);
       toast.success('Notice published successfully');
-      setIsModalOpen(false);
       setFormData({ title: '', content: '', expiryDate: defaultExpiry });
       fetchNotices();
     } catch (error) {
@@ -74,106 +70,266 @@ export default function Notices() {
     }
   };
 
+  if (loading) {
+      return (
+          <div className="flex items-center justify-center min-h-[50vh] w-full">
+              <Spinner size="lg" color="primary" />
+          </div>
+      );
+  }
+
+  const now = new Date();
+  const activeNotices = notices.filter(n => new Date(n.expiryDate) >= now).length;
+  const expiringSoon = notices.filter(n => {
+      const expiry = new Date(n.expiryDate);
+      const diffTime = Math.abs(expiry - now);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+      return expiry >= now && diffDays <= 3;
+  }).length;
+
   return (
-    <div className="page-container bg-noticeboard" style={{
-      minHeight: '100vh'
-    }}>
-      <div className="page-header">
-        <h1 className="page-title">Notice Board</h1>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          <div style={{ position: 'relative' }}>
-            <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-            <input 
-              type="text" 
-              placeholder="Search notices..." 
-              value={searchQuery}
-              style={{ padding: '0.5rem 0.75rem 0.5rem 2.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', fontSize: '0.875rem', width: '240px' }}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
-            <Bell size={18} /> Publish Notice
-          </button>
-        </div>
-      </div>
-
-      <div className="dashboard-stats" style={{ gridTemplateColumns: '1fr' }}>
-        {loading ? (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {[1, 2, 3].map(i => <div key={i} className="skeleton skeleton-line"></div>)}
-          </div>
-        ) : paginatedData.length === 0 ? (
-          <div className="card empty-state" style={{ height: '200px' }}>No notices found.</div>
-        ) : (
-          <>
-            {paginatedData.map(notice => (
-              <div key={notice.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{notice.title}</h3>
-                    <div style={{ display: 'flex', gap: '1rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-                      <span>Published by: {notice.createdByName}</span>
-                      <span>Expires: {notice.expiryDate}</span>
-                    </div>
-                  </div>
-                  <button className="btn btn-outline" style={{ padding: '0.5rem', border: 'none' }} onClick={() => setConfirmDelete({ isOpen: true, id: notice.id, isDeleting: false })}>
-                    <Trash2 size={18} color="var(--danger)" />
-                  </button>
-                </div>
-                <p style={{ color: 'var(--text-main)', whiteSpace: 'pre-wrap' }}>{notice.content}</p>
-              </div>
-            ))}
-            {totalPages > 1 && (
-              <div className="pagination-controls" style={{ justifyContent: 'center', marginTop: '1rem' }}>
-                <button onClick={prevPage} disabled={currentPage === 1}>Prev</button>
-                <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Page {currentPage} of {totalPages}</span>
-                <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Publish Notice</h2>
-              <button className="btn btn-outline" onClick={() => setIsModalOpen(false)}>✕</button>
+    <div className="w-full space-y-6">
+        {/* Header Action Row */}
+        <div className="flex justify-between items-end mb-4">
+            <div>
+                <h3 className="font-headline-lg text-headline-lg text-on-surface">Community Bulletin</h3>
+                <p className="text-body-md text-secondary mt-1">Manage and schedule announcements for all residents.</p>
             </div>
-            <form onSubmit={handleCreate}>
-              <div className="input-group">
-                <label>Title</label>
-                <input type="text" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} required />
-              </div>
-              <div className="input-group">
-                <label>Content</label>
-                <textarea rows="4" value={formData.content} onChange={e => setFormData({...formData, content: e.target.value})} required />
-              </div>
-              <div className="input-group">
-                <label>Expiry Date</label>
-                <input type="date" value={formData.expiryDate} onChange={e => setFormData({...formData, expiryDate: e.target.value})} required />
-              </div>
-              <div className="modal-actions">
-                <button type="button" className="btn btn-outline" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</button>
-                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-                  {isSubmitting ? <Spinner size="sm" /> : 'Publish'}
-                </button>
-              </div>
-            </form>
-          </div>
+            {/* Keeping button for mobile view where sidebar drops down */}
+            <button 
+                onClick={() => document.getElementById('publish-form').scrollIntoView({ behavior: 'smooth' })}
+                className="lg:hidden btn btn-primary btn-md"
+            >
+                <span className="material-symbols-outlined">add</span>
+                <span className="hidden sm:inline">Create Notice</span>
+            </button>
         </div>
-      )}
-      
-      <ConfirmModal 
-        isOpen={confirmDelete.isOpen}
-        onClose={() => setConfirmDelete({ isOpen: false, id: null, isDeleting: false })}
-        onConfirm={handleDelete}
-        title="Delete Notice"
-        message="Are you sure you want to delete this notice? This action cannot be undone."
-        confirmText={confirmDelete.isDeleting ? "Deleting..." : "Delete"}
-        type="danger"
-      />
+
+        {/* KPI Row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="card border-l-4 border-[#1B3358] !border-y-0 !border-r-0 !shadow-[0px_4px_12px_rgba(27,39,51,0.08)] flex justify-between items-start">
+                <div>
+                    <p className="text-secondary font-label-lg">Active Notices</p>
+                    <h4 className="text-4xl font-headline-lg mt-2">{activeNotices}</h4>
+                    <p className="text-success text-body-sm mt-1 text-green-600 flex items-center gap-1">
+                        Currently visible
+                    </p>
+                </div>
+                <div className="p-3 bg-secondary-container/20 rounded-lg text-secondary">
+                    <span className="material-symbols-outlined text-[24px]">campaign</span>
+                </div>
+            </div>
+            
+            <div className="card border-l-4 border-[#E8734F] !border-y-0 !border-r-0 !shadow-[0px_4px_12px_rgba(27,39,51,0.08)] flex justify-between items-start">
+                <div>
+                    <p className="text-secondary font-label-lg">Expiring Soon</p>
+                    <h4 className="text-4xl font-headline-lg mt-2">{expiringSoon}</h4>
+                    <p className="text-error text-body-sm mt-1 flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[16px]">schedule</span>
+                        Ending within 3 days
+                    </p>
+                </div>
+                <div className="p-3 bg-primary-container/20 rounded-lg text-[#E8734F]">
+                    <span className="material-symbols-outlined text-[24px]">timer_off</span>
+                </div>
+            </div>
+            
+            <div className="card border-l-4 border-outline !border-y-0 !border-r-0 !shadow-[0px_4px_12px_rgba(27,39,51,0.08)] flex justify-between items-start">
+                <div>
+                    <p className="text-secondary font-label-lg">Total Notices</p>
+                    <h4 className="text-4xl font-headline-lg mt-2">{notices.length}</h4>
+                    <p className="text-secondary text-body-sm mt-1">All time published</p>
+                </div>
+                <div className="p-3 bg-surface-container rounded-lg text-outline">
+                    <span className="material-symbols-outlined text-[24px]">history</span>
+                </div>
+            </div>
+        </div>
+
+        {/* Main Split Layout */}
+        <div className="flex flex-col lg:flex-row gap-6">
+            
+            {/* Notice Table Section (66%) */}
+            <section className="flex-grow lg:w-2/3 space-y-4">
+                <div className="card !p-0 overflow-hidden flex flex-col h-full">
+                    <div className="p-6 border-b border-outline-variant/30 flex flex-wrap justify-between items-center gap-4">
+                        <h5 className="font-headline-sm text-headline-sm">Published Announcements</h5>
+                        <div className="relative">
+                            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary opacity-50 text-[18px]">search</span>
+                            <input 
+                                className="w-full pl-9 pr-4 py-1.5 bg-surface-container-lowest border border-outline-variant/40 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary font-body-sm text-body-sm shadow-sm" 
+                                placeholder="Search notices..." 
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="overflow-x-auto flex-1">
+                        <table className="data-table min-w-[600px]">
+                            <thead>
+                                <tr>
+                                    <th>Title & Content</th>
+                                    <th>Dates</th>
+                                    <th>Status</th>
+                                    <th className="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {paginatedData.map(notice => {
+                                    const isExpired = new Date(notice.expiryDate) < new Date();
+                                    return (
+                                        <tr key={notice.id} className="group">
+                                            <td>
+                                                <div className="flex items-start gap-3">
+                                                    <span className={`material-symbols-outlined text-[18px] mt-0.5 ${isExpired ? 'text-secondary' : 'text-primary'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
+                                                        push_pin
+                                                    </span>
+                                                    <div>
+                                                        <p className="font-body-md font-semibold text-on-surface">{notice.title}</p>
+                                                        <p className="text-body-sm text-secondary line-clamp-2 mt-1">{notice.content}</p>
+                                                        <p className="text-[10px] text-secondary mt-1 uppercase tracking-wider">By {notice.createdByName}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="whitespace-nowrap">
+                                                <p className="text-body-sm text-on-surface">{new Date(notice.createdAt).toLocaleDateString()}</p>
+                                                <p className="text-label-sm text-secondary mt-0.5">Ends: {new Date(notice.expiryDate).toLocaleDateString()}</p>
+                                            </td>
+                                            <td>
+                                                {isExpired ? (
+                                                    <span className="flex items-center gap-1.5 text-secondary font-label-md opacity-70 uppercase text-[11px]">
+                                                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>Expired
+                                                    </span>
+                                                ) : (
+                                                    <span className="flex items-center gap-1.5 text-green-600 font-label-md uppercase text-[11px]">
+                                                        <span className="w-1.5 h-1.5 bg-green-600 rounded-full"></span>Active
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="text-right">
+                                                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button 
+                                                        className="p-1.5 hover:bg-surface-container-high rounded text-error transition-colors" 
+                                                        title="Delete"
+                                                        onClick={() => setConfirmDelete({ isOpen: true, id: notice.id, isDeleting: false })}
+                                                    >
+                                                        <span className="material-symbols-outlined text-[20px]">delete</span>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                                {paginatedData.length === 0 && (
+                                    <tr>
+                                        <td colSpan="4" className="py-10 text-center text-secondary font-body-md">
+                                            No notices found.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="p-4 border-t border-outline-variant/30 flex justify-between items-center flex-wrap gap-4">
+                            <p className="text-label-md text-secondary">
+                                Showing {(currentPage - 1) * 10 + 1}-{Math.min(currentPage * 10, notices.length)} of {notices.length} notices
+                            </p>
+                            <div className="flex gap-2">
+                                <button 
+                                    className="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-secondary hover:bg-surface-container-highest transition-colors disabled:opacity-30"
+                                    onClick={prevPage}
+                                    disabled={currentPage === 1}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+                                </button>
+                                <button className="w-8 h-8 flex items-center justify-center rounded bg-[#1B3358] text-white font-label-sm hidden sm:flex">
+                                    {currentPage}
+                                </button>
+                                <button 
+                                    className="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-secondary hover:bg-surface-container-highest transition-colors disabled:opacity-30"
+                                    onClick={nextPage}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </section>
+            
+            {/* Publish Form Sidebar (33%) */}
+            <aside id="publish-form" className="lg:w-1/3 space-y-6">
+                <div className="card !p-0 flex flex-col h-full">
+                    <div className="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+                        <h5 className="font-headline-sm text-headline-sm">Publish New Notice</h5>
+                    </div>
+                    <div className="p-6 flex-1">
+                        <form onSubmit={handleCreate} className="space-y-4">
+                            <div>
+                                <label className="block text-label-md text-secondary uppercase tracking-wider mb-1.5">Title</label>
+                                <input 
+                                    type="text" 
+                                    value={formData.title} 
+                                    onChange={e => setFormData({...formData, title: e.target.value})} 
+                                    required 
+                                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                    placeholder="e.g. Water Supply Interruption"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-label-md text-secondary uppercase tracking-wider mb-1.5">Content</label>
+                                <textarea 
+                                    rows="5" 
+                                    value={formData.content} 
+                                    onChange={e => setFormData({...formData, content: e.target.value})} 
+                                    required 
+                                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
+                                    placeholder="Enter the details of the notice here..."
+                                ></textarea>
+                            </div>
+                            <div>
+                                <label className="block text-label-md text-secondary uppercase tracking-wider mb-1.5">Expiry Date</label>
+                                <input 
+                                    type="date" 
+                                    value={formData.expiryDate} 
+                                    onChange={e => setFormData({...formData, expiryDate: e.target.value})} 
+                                    required 
+                                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                />
+                            </div>
+                            <div className="pt-4 mt-4 border-t border-outline-variant/30">
+                                <button 
+                                    type="submit" 
+                                    className="btn btn-primary w-full py-3 min-h-[48px] justify-center" 
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? <Spinner size="sm" color="white" /> : (
+                                        <>
+                                            <span className="material-symbols-outlined mr-2 text-[20px]">send</span> Publish Notice
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <ConfirmModal 
+            isOpen={confirmDelete.isOpen}
+            onClose={() => setConfirmDelete({ isOpen: false, id: null, isDeleting: false })}
+            onConfirm={handleDelete}
+            title="Delete Notice"
+            message="Are you sure you want to delete this notice? This action cannot be undone."
+            confirmText={confirmDelete.isDeleting ? "Deleting..." : "Delete"}
+            type="danger"
+        />
     </div>
   );
 }

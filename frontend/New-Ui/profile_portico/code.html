@@ -1,0 +1,377 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Resident Profile - Portico</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..900&amp;family=Source+Serif+4:wght@100..900&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            background-color: #f8f9fb;
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: #191c1e;
+        }
+        .sidebar-shadow {
+            box-shadow: 4px 0 12px rgba(27, 39, 51, 0.05);
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 12px rgba(27, 39, 51, 0.08);
+        }
+    </style>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2d3133",
+                        "surface-container-highest": "#e0e3e5",
+                        "secondary-fixed-dim": "#b0c7f4",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#4ba491",
+                        "inverse-on-surface": "#eff1f3",
+                        "inverse-primary": "#ffb59f",
+                        "surface-tint": "#a13f1f",
+                        "on-primary-container": "#5a1500",
+                        "tertiary-fixed": "#9af3de",
+                        "secondary-container": "#b9cffd",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#00352c",
+                        "on-background": "#191c1e",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#001b3e",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "surface-bright": "#f8f9fb",
+                        "on-secondary-container": "#42587f",
+                        "secondary-fixed": "#d6e3ff",
+                        "primary": "#a13f1f",
+                        "on-tertiary-fixed-variant": "#005144",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "outline": "#8a726b",
+                        "primary-fixed": "#ffdbd1",
+                        "surface": "#f8f9fb",
+                        "on-surface-variant": "#57423c",
+                        "tertiary-fixed-dim": "#7ed6c2",
+                        "on-primary-fixed-variant": "#822809",
+                        "on-primary-fixed": "#3a0a00",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#ffb59f",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#ddc0b8",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#e8734f",
+                        "on-tertiary-fixed": "#00201a",
+                        "background": "#f8f9fb",
+                        "on-surface": "#191c1e",
+                        "tertiary": "#006b5b",
+                        "on-secondary-fixed-variant": "#30476d",
+                        "secondary": "#485f86"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "sidebar-width": "280px",
+                        "header-height": "64px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin-desktop": "32px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["IBM Plex Sans"],
+                        "body-md": ["IBM Plex Sans"],
+                        "headline-md": ["\"Source Serif 4\""],
+                        "body-lg": ["IBM Plex Sans"],
+                        "label-md": ["IBM Plex Sans"],
+                        "label-lg": ["IBM Plex Sans"],
+                        "display-lg": ["\"Source Serif 4\""],
+                        "headline-sm": ["\"Source Serif 4\""],
+                        "body-sm": ["IBM Plex Sans"],
+                        "headline-lg": ["\"Source Serif 4\""],
+                        "display-lg-mobile": ["\"Source Serif 4\""]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Persistent Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-[#1B3358] flex flex-col py-8 px-6 z-50">
+<div class="mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary-container leading-none mb-1 text-white">Portico Residents</h1>
+<p class="font-label-md text-label-md text-secondary-fixed-dim uppercase tracking-wider">Tower A - 402</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg text-secondary-fixed-dim font-label-lg hover:bg-white/10 transition-colors group" href="#">
+<span class="text-xs opacity-40 font-mono">01</span>
+<span class="material-symbols-outlined">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<!-- Payments -->
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg text-secondary-fixed-dim font-label-lg hover:bg-white/10 transition-colors group" href="#">
+<span class="text-xs opacity-40 font-mono">02</span>
+<span class="material-symbols-outlined">payments</span>
+<span class="">Payments</span>
+</a>
+<!-- Bills -->
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg text-secondary-fixed-dim font-label-lg hover:bg-white/10 transition-colors group" href="#">
+<span class="text-xs opacity-40 font-mono">03</span>
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="">Bills</span>
+</a>
+<!-- Maintenance -->
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg text-secondary-fixed-dim font-label-lg hover:bg-white/10 transition-colors group" href="#">
+<span class="text-xs opacity-40 font-mono">04</span>
+<span class="material-symbols-outlined">handyman</span>
+<span class="">Maintenance</span>
+</a>
+<!-- Profile (ACTIVE) -->
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg text-primary font-bold border-r-4 border-primary bg-white/5 transition-colors group" href="#">
+<span class="text-xs opacity-60 font-mono">05</span>
+<span class="material-symbols-outlined fill-icon">person</span>
+<span class="">Profile</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-4 bg-primary-container text-white font-bold rounded-lg flex items-center justify-center gap-2 hover:brightness-110 transition-all">
+<span class="material-symbols-outlined">bolt</span>
+                Quick Pay
+            </button>
+</div>
+</aside>
+<!-- Header -->
+<header class="fixed top-0 right-0 left-0 h-header-height bg-surface flex justify-between items-center px-8 ml-sidebar-width z-40 border-b border-outline-variant/10">
+<div class="flex items-center w-1/3">
+<div class="relative w-full max-w-sm group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-body-sm focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" placeholder="Search facilities, bills, or help..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-on-surface-variant hover:text-primary transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full border-2 border-surface"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-opacity">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
+<div class="text-right">
+<p class="font-label-lg text-on-surface leading-none">Arjun Mehta</p>
+<p class="font-label-sm text-on-surface-variant">Primary Resident</p>
+</div>
+<div class="relative">
+<img class="w-10 h-10 rounded-full border-2 border-primary ring-2 ring-primary/10" data-alt="A professional headshot of a middle-aged South Asian man with a warm and confident expression. He is wearing a sharp charcoal grey business blazer over a white shirt. The background is a blurred, high-end modern residential lounge with warm wood accents and soft ambient architectural lighting, reflecting a corporate and sophisticated atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD6ySNdh3BqMdzFqJ126NjfWd8_M1Rt7FJxqX0JH3ZROFS5jVH79aUjBo8BBkEruEbpe0MLAVxRQAcwmEFliIu5h59C0amn-wVrOYvlhi2Oep-ddGqm_5KcnEWo4ZVK73njZ1u1lVZ-pGMekgMN0cAgZyOH7_L5cPyxmiPUB2bUbgbeWlLKJ5jlJcSudd-q6S3GEJCAN9J_Jx_9CRSv9C8TAa_1OUhwn6Z85uOGZU2fgHhk6e0aP_YDa1g0zNtPG2o-SMxa4dKN_pF">
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-surface rounded-full"></span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-sidebar-width pt-[calc(var(--header-height)+24px)] px-8 pb-6 max-w-7xl mx-auto">
+<header class="flex justify-between items-end mb-8">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="font-label-md text-label-md">Portal</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="font-label-md text-label-md text-primary">Resident Profile</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg">My Profile</h2>
+</div>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-white rounded-lg font-bold shadow-sm hover:shadow-md transition-all">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+                Edit Profile
+            </button>
+</header>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Section 1: User Information -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<section class="bg-surface-container-lowest p-8 rounded-xl card-shadow border border-outline-variant/30">
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="relative group">
+<div class="w-32 h-32 rounded-2xl overflow-hidden bg-surface-container border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A detailed close-up of a high-quality ID photograph showing Arjun Mehta, a distinguished resident. The image captures a sharp focus on his face, with a clean and professional aesthetic. The lighting is soft but precise, emphasizing a corporate light-mode atmosphere. He is set against a neutral, minimal studio background that feels modern and gallery-like." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM9VJIXjO-_mQS71KWiL6dBOvgMQrL32Z3Qot_liNyjn_i2HQN_BUPR8sg1JOc15LfdoYEvlh1RbCV0dkzCLXY4wq7-8l_G78sPaahWjhY7o9RwGTqamtiXrS1pFMXZIccSntWDq9D2EhO7u_hZt_GU-SF4_GxmWTxnBgFu4y-BWz3OahbixYj6imzdIZl5QVdK7nRdZgzdDula7kV864_IHX9LVHglpLLMDxgzLx8cUDRN7XJEZAMZvM7v3InGeTg7BwPYITn9dky">
+</div>
+<button class="absolute -bottom-3 -right-3 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center text-primary border border-outline-variant hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+</button>
+</div>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+<div class="col-span-2 border-b border-outline-variant pb-4 mb-2">
+<h3 class="font-headline-sm text-headline-sm mb-1">Personal Identity</h3>
+<p class="text-body-sm text-on-surface-variant">General contact information and identity details.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-tighter">Full Name</label>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Arjun Mehta</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-tighter">Email Address</label>
+<p class="font-body-md text-body-md font-semibold text-on-surface">arjun.mehta@residency.com</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-tighter">Phone Number</label>
+<p class="font-body-md text-body-md font-semibold text-on-surface">+91 98765 43210</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-tighter">Secondary Contact</label>
+<p class="font-body-md text-body-md font-semibold text-on-surface">+91 98765 01234</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Residential Details -->
+<section class="bg-surface-container-lowest p-8 rounded-xl card-shadow border border-outline-variant/30">
+<div class="flex items-center gap-3 mb-6 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined text-primary">apartment</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm">Residential Details</h3>
+<p class="text-body-sm text-on-surface-variant">Allocated unit and tower specifications.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+<div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/10">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Block/Tower</label>
+<p class="font-headline-sm text-headline-sm text-on-surface">Tower A</p>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/10">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Flat Number</label>
+<p class="font-headline-sm text-headline-sm text-on-surface">402</p>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/10">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Ownership</label>
+<p class="font-headline-sm text-headline-sm text-on-surface">Owned</p>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/10">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Move-in Date</label>
+<p class="font-headline-sm text-headline-sm text-on-surface">12 Oct 2021</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar Content -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Section 3: Vehicle Management -->
+<section class="bg-surface-container-lowest p-6 rounded-xl card-shadow border border-outline-variant/30">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-sm text-headline-sm">Vehicles</h3>
+<button class="text-primary font-label-lg hover:underline">Manage</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface hover:bg-surface-container-low transition-colors border border-outline-variant/20">
+<div class="w-12 h-12 rounded bg-[#1B3358]/10 text-[#1B3358] flex items-center justify-center">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex-1">
+<p class="font-label-lg text-on-surface">MH 12 AB 4567</p>
+<p class="text-body-sm text-on-surface-variant">Spot: P1 - 042</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface hover:bg-surface-container-low transition-colors border border-outline-variant/20">
+<div class="w-12 h-12 rounded bg-[#1B3358]/10 text-[#1B3358] flex items-center justify-center">
+<span class="material-symbols-outlined">motorcycle</span>
+</div>
+<div class="flex-1">
+<p class="font-label-lg text-on-surface">MH 12 XY 9988</p>
+<p class="text-body-sm text-on-surface-variant">Spot: B2 - 015</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<button class="w-full py-3 border-2 border-dashed border-outline-variant rounded-lg text-on-surface-variant font-label-lg hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                            Register Vehicle
+                        </button>
+</div>
+</section>
+<!-- Section 4: Emergency Contacts -->
+<section class="bg-[#1B3358] p-6 rounded-xl shadow-lg text-white">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-error-container fill-icon">emergency</span>
+<h3 class="font-headline-sm text-headline-sm">Emergency</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-lg bg-white/5 border border-white/10">
+<p class="font-label-md text-white/60 uppercase text-[10px] tracking-widest mb-1">Primary Contact</p>
+<p class="font-label-lg text-white mb-1">Rohan Mehta (Brother)</p>
+<p class="text-body-sm font-semibold text-secondary-fixed-dim">+91 98888 77777</p>
+</div>
+<div class="p-4 rounded-lg bg-white/5 border border-white/10">
+<p class="font-label-md text-white/60 uppercase text-[10px] tracking-widest mb-1">Facility Manager</p>
+<p class="font-label-lg text-white mb-1">Society Desk (24x7)</p>
+<p class="text-body-sm font-semibold text-secondary-fixed-dim">+91 20 2345 6789</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Quick Stats Bento Section -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-surface-container-high p-6 rounded-xl flex items-center gap-6">
+<div class="p-4 bg-white rounded-full shadow-sm text-primary">
+<span class="material-symbols-outlined text-[32px] fill-icon">verified_user</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface">Member Since</h4>
+<p class="font-headline-md text-headline-md">3 Years</p>
+</div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl flex items-center gap-6">
+<div class="p-4 bg-white rounded-full shadow-sm text-green-600">
+<span class="material-symbols-outlined text-[32px] fill-icon">shield_lock</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface">Security Clear</h4>
+<p class="font-headline-md text-headline-md">Verified</p>
+</div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl flex items-center gap-6">
+<div class="p-4 bg-white rounded-full shadow-sm text-orange-500">
+<span class="material-symbols-outlined text-[32px] fill-icon">loyalty</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface">Portal Credits</h4>
+<p class="font-headline-md text-headline-md">1,240 pts</p>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Subtle interaction for inputs (visual only)
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('ring-2', 'ring-primary/10');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('ring-2', 'ring-primary/10');
+            });
+        });
+
+        // Simulating Micro-interaction for vehicle list
+        const vehicleCards = document.querySelectorAll('.vehicle-card');
+        vehicleCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+
+
+</body></html>

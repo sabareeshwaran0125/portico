@@ -1,0 +1,396 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Visitor Log - Portico Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Config from Source of Truth -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#a13f1f",
+                    "surface-dim": "#d8dadc",
+                    "on-surface-variant": "#57423c",
+                    "tertiary-fixed": "#9af3de",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#822809",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#5a1500",
+                    "on-primary": "#ffffff",
+                    "outline": "#8a726b",
+                    "background": "#f8f9fb",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "secondary-fixed-dim": "#b0c7f4",
+                    "on-tertiary-fixed-variant": "#005144",
+                    "on-secondary-fixed-variant": "#30476d",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#f2f4f6",
+                    "on-secondary-container": "#42587f",
+                    "on-background": "#191c1e",
+                    "surface-variant": "#e0e3e5",
+                    "outline-variant": "#ddc0b8",
+                    "on-secondary-fixed": "#001b3e",
+                    "surface": "#f8f9fb",
+                    "on-tertiary-fixed": "#00201a",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-surface": "#191c1e",
+                    "tertiary": "#006b5b",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#7ed6c2",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#ffb59f",
+                    "on-tertiary-container": "#00352c",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-container": "#eceef0",
+                    "secondary": "#485f86",
+                    "primary-container": "#e8734f",
+                    "secondary-fixed": "#d6e3ff",
+                    "tertiary-container": "#4ba491",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#ffb59f",
+                    "primary-fixed": "#ffdbd1",
+                    "on-primary-fixed": "#3a0a00",
+                    "secondary-container": "#b9cffd",
+                    "surface-tint": "#a13f1f",
+                    "surface-bright": "#f8f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "header-height": "64px",
+                    "sidebar-width": "280px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "32px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "display-lg": ["\"Source Serif 4\""],
+                    "label-md": ["IBM Plex Sans"],
+                    "headline-md": ["\"Source Serif 4\""],
+                    "label-lg": ["IBM Plex Sans"],
+                    "label-sm": ["IBM Plex Sans"],
+                    "display-lg-mobile": ["\"Source Serif 4\""],
+                    "body-md": ["IBM Plex Sans"],
+                    "headline-lg": ["\"Source Serif 4\""],
+                    "body-lg": ["IBM Plex Sans"],
+                    "headline-sm": ["\"Source Serif 4\""],
+                    "body-sm": ["IBM Plex Sans"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'IBM Plex Sans', sans-serif; }
+        .sidebar-indigo { background-color: #1B3358; }
+        .active-nav-border { border-right: 4px solid #e8734f; }
+        .custom-shadow { box-shadow: 0px 4px 12px rgba(27, 39, 51, 0.08); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[280px] sidebar-indigo flex flex-col z-50">
+<div class="px-6 py-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Portico Management</h1>
+<p class="text-surface-variant/60 text-body-sm">Prestige Heights</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<!-- Mapping JSON labels exactly -->
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:text-surface-variant hover:bg-white/10 transition-colors duration-200 rounded-lg group" href="#">
+<span class="text-xs font-bold mr-3 opacity-50">01</span>
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-body-md">01 Dashboard</span>
+</a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:text-surface-variant hover:bg-white/10 transition-colors duration-200 rounded-lg group" href="#">
+<span class="text-xs font-bold mr-3 opacity-50">02</span>
+<span class="material-symbols-outlined mr-3">groups</span>
+<span class="font-body-md">02 Residents</span>
+</a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:text-surface-variant hover:bg-white/10 transition-colors duration-200 rounded-lg group" href="#">
+<span class="text-xs font-bold mr-3 opacity-50">03</span>
+<span class="material-symbols-outlined mr-3">receipt_long</span>
+<span class="font-body-md">03 Billing</span>
+</a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:text-surface-variant hover:bg-white/10 transition-colors duration-200 rounded-lg group" href="#">
+<span class="text-xs font-bold mr-3 opacity-50">04</span>
+<span class="material-symbols-outlined mr-3">report_problem</span>
+<span class="font-body-md">04 Complaints</span>
+</a>
+<!-- Active State: 05 Visitor Log -->
+<a class="flex items-center px-4 py-3 text-primary-container bg-white/5 active-nav-border transition-colors duration-200 rounded-lg group" href="#">
+<span class="text-xs font-bold mr-3 text-primary-container">05</span>
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-body-md font-semibold">05 Visitor Log</span>
+</a>
+<a class="flex items-center px-4 py-3 text-surface-variant/70 hover:text-surface-variant hover:bg-white/10 transition-colors duration-200 rounded-lg group" href="#">
+<span class="text-xs font-bold mr-3 opacity-50">06</span>
+<span class="material-symbols-outlined mr-3">event_available</span>
+<span class="font-body-md">06 Facility Booking</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-white/10">
+<a class="flex items-center px-4 py-2 text-surface-variant/70 hover:text-surface-variant transition-colors mb-2" href="#">
+<span class="material-symbols-outlined mr-3">account_circle</span>
+<span class="font-body-md">Profile</span>
+</a>
+<a class="flex items-center px-4 py-2 text-surface-variant/70 hover:text-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined mr-3 text-error">logout</span>
+<span class="font-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-[280px] min-h-screen flex flex-col">
+<!-- Top Bar -->
+<header class="h-header-height sticky top-0 bg-surface-bright border-b border-outline-variant/30 px-8 flex justify-between items-center z-40">
+<div class="flex items-center flex-1 max-w-2xl">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-1 focus:ring-primary placeholder:text-outline/60" placeholder="Search residents, unit #, or guest name..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6 ml-8">
+<!-- Shift Status Indicator -->
+<div class="flex items-center bg-tertiary-container/10 border border-tertiary-container/20 px-3 py-1.5 rounded-full">
+<span class="w-2 h-2 bg-tertiary rounded-full animate-pulse mr-2"></span>
+<span class="text-body-sm font-semibold text-tertiary">Gate A: Officer Miller (Shift: 08:00 - 16:00)</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-secondary hover:bg-surface-container-high p-2 rounded-full transition-colors">notifications</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container p-0.5">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional headshot of a security officer in a dark blue uniform, looking authoritative and friendly. The portrait is set against a clean, modern architectural background with soft natural lighting and a high-contrast corporate aesthetic. The overall mood is reliable and secure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI-G2NnmnZvx-_sjbUOJN3rN9YKUtl-Gm4uCkyB_vdyQTyYl5OG8u9XWJmLwIqtPQRGBCjTAn1IVyhkylrgJJqmlqqo0ot_2wbFuicDmNoc7fonWGHdv74OgY0FcA2ArFA8-kESVdR_vjbOLjWlpS2hQVJ-DL4xBv0Y-f7uvncvqofcyQ22izQGAGvUJIpLFHTd46WPYkZRbHVEmKxB2f0cmEAQSxrWepaayAzUWTVdj2CE78ip2qL7MWndIKIBZMkUgbBoTIZQiYl">
+</div>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-margin-desktop space-y-8 flex-1 overflow-y-auto"><div class="px-8 py-6 space-y-8 flex-1 overflow-y-auto">
+<!-- Hero Stats & Quick Actions -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Quick Entry Button Card -->
+<div class="col-span-12 lg:col-span-4 bg-primary-container rounded-xl p-6 text-white custom-shadow flex flex-col justify-between group cursor-pointer hover:bg-primary transition-all duration-300">
+<div>
+<div class="flex justify-between items-start">
+<h2 class="font-headline-sm text-headline-sm">Log New Entry</h2>
+<span class="material-symbols-outlined text-4xl opacity-50">person_add</span>
+</div>
+<p class="text-white/80 text-body-sm mt-2 max-w-[200px]">Register a new guest, delivery, or service provider manually.</p>
+</div>
+<div class="mt-6 flex items-center gap-2 font-bold group-hover:gap-4 transition-all">
+<span class="">START ENTRY</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+</div>
+<!-- Stats Cards -->
+<div class="col-span-12 md:col-span-6 lg:col-span-4 bg-surface-container-lowest rounded-xl p-6 custom-shadow border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-outline text-label-lg uppercase tracking-wider">Currently In</p>
+<h3 class="font-display-lg text-display-lg mt-1 text-primary">24</h3>
+</div>
+<div class="bg-primary/10 p-3 rounded-lg text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+</div>
+<div class="mt-4 flex items-center text-body-sm text-tertiary">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+<span class="">8% increase from last hour</span>
+</div>
+</div>
+<div class="col-span-12 md:col-span-6 lg:col-span-4 bg-surface-container-lowest rounded-xl p-6 custom-shadow border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-outline text-label-lg uppercase tracking-wider">Pending Approvals</p>
+<h3 class="font-display-lg text-display-lg mt-1 text-secondary">07</h3>
+</div>
+<div class="bg-secondary/10 p-3 rounded-lg text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+</div>
+</div>
+<div class="mt-4 flex items-center text-body-sm text-on-surface-variant">
+<button class="text-primary font-semibold hover:underline">View Schedule</button>
+</div>
+</div>
+</div>
+<!-- Table & Scanner Section -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Main Log Table -->
+<div class="col-span-12 xl:col-span-9 bg-surface-container-lowest rounded-xl custom-shadow overflow-hidden flex flex-col border border-outline-variant/30">
+<div class="px-6 py-5 border-b border-outline-variant/30 flex justify-between items-center">
+<h2 class="font-headline-sm text-headline-sm">Active Visitors</h2>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 bg-surface-container rounded-lg text-label-lg hover:bg-surface-container-high transition-colors">Filters</button>
+<button class="px-3 py-1.5 bg-surface-container rounded-lg text-label-lg hover:bg-surface-container-high transition-colors">Export CSV</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 text-label-md text-outline uppercase tracking-wider">Visitor Name</th>
+<th class="px-6 py-4 text-label-md text-outline uppercase tracking-wider">Purpose</th>
+<th class="px-6 py-4 text-label-md text-outline uppercase tracking-wider">Unit #</th>
+<th class="px-6 py-4 text-label-md text-outline uppercase tracking-wider">Entry Time</th>
+<th class="px-6 py-4 text-label-md text-outline uppercase tracking-wider">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-xs">JR</div>
+<div>
+<div class="text-body-md font-semibold">Jonathan Reed</div>
+<div class="text-xs text-outline">ID: 4492-XX</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-tertiary-fixed text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-sm">local_shipping</span>
+                                            Delivery
+                                        </span>
+</td>
+<td class="px-6 py-4 font-body-md">Building A - 402</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">14:22 (45m ago)</td>
+<td class="px-6 py-4">
+<button class="bg-surface-container border border-outline/20 text-on-surface px-4 py-1.5 rounded-lg text-label-md font-bold hover:bg-primary-container hover:text-white hover:border-primary-container transition-all">Check Out</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-bold text-xs">SM</div>
+<div>
+<div class="text-body-md font-semibold">Sarah Mendez</div>
+<div class="text-xs text-outline">ID: 8821-YX</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-sm">group</span>
+                                            Guest
+                                        </span>
+</td>
+<td class="px-6 py-4 font-body-md">Penthouse - 01</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">15:05 (2m ago)</td>
+<td class="px-6 py-4">
+<button class="bg-surface-container border border-outline/20 text-on-surface px-4 py-1.5 rounded-lg text-label-md font-bold hover:bg-primary-container hover:text-white hover:border-primary-container transition-all">Check Out</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-dim text-on-surface flex items-center justify-center font-bold text-xs">TC</div>
+<div>
+<div class="text-body-md font-semibold">Tech Corp - Mike</div>
+<div class="text-xs text-outline">Service ID: #990</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-surface-variant text-on-surface-variant border border-outline/10">
+<span class="material-symbols-outlined text-sm">handyman</span>
+                                            Service
+                                        </span>
+</td>
+<td class="px-6 py-4 font-body-md">Building C - Gym</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">12:30 (2h 37m ago)</td>
+<td class="px-6 py-4">
+<button class="bg-surface-container border border-outline/20 text-on-surface px-4 py-1.5 rounded-lg text-label-md font-bold hover:bg-primary-container hover:text-white hover:border-primary-container transition-all">Check Out</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-outline-variant/30 bg-surface-container-low/30 text-center">
+<button class="text-primary text-label-lg font-bold hover:underline">View All Active Records</button>
+</div>
+</div>
+<!-- Quick Scan Area -->
+<div class="col-span-12 xl:col-span-3 space-y-gutter">
+<!-- Scanner Component -->
+<div class="bg-surface-container-highest rounded-xl p-6 custom-shadow border-2 border-dashed border-outline/30 flex flex-col items-center text-center">
+<div class="w-full aspect-square bg-black rounded-lg mb-6 flex items-center justify-center relative overflow-hidden group">
+<!-- Simulated Scanner Overlay -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary/80 animate-[scan_2s_ease-in-out_infinite] z-10"></div>
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A high-tech digital camera lens view with a green digital frame focus, capturing a QR code on a mobile phone screen held by a visitor's hand. The setting is a modern gated entry at dusk with blurred warm architectural lights in the background. Professional security interface aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGvZ6_JxhHC5oKaIjysnBp4t_x-exwPXqBJSp3kyiE7iJPL1wB6gWDcp9Wp6Cn1g_AdoMz7Xy8NLcHDp3Kpci5dylHMawreOJT5fPPknORHWmdUPfT9HmSrjh0DFfn-AP64lst3OpOdvmctZsMgC4VJDhQwSlr2m_mnFL22V3n0rFqMmDHN2nsk5IrxIBf2kJZzDBefz4mn-hW9HvoofFdc17_OZWfSC0AL8IMl4ZP8EAV6U0NS58uVe2M_6_bd_zfBFaLF1tUdG5I">
+<span class="material-symbols-outlined absolute text-6xl text-white/40 group-hover:text-white/60 transition-colors">qr_code_scanner</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Quick Scan</h4>
+<p class="text-body-sm text-on-surface-variant mb-6">Hold visitor's digital pass or QR code in front of the gate camera to auto-process entry.</p>
+<button class="w-full bg-secondary text-white py-3 rounded-lg font-bold hover:bg-secondary-fixed-dim hover:text-on-secondary-fixed transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">qr_code_2</span>
+                            SCAN QR CODE
+                        </button>
+</div>
+<!-- Security Notes / Broadcast -->
+<div class="bg-error-container/20 rounded-xl p-5 border border-error/20">
+<div class="flex items-center gap-2 text-error mb-3">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-label-lg font-bold">SECURITY ALERT</span>
+</div>
+<p class="text-body-sm text-on-error-container leading-relaxed">
+                            Scheduled maintenance for Building B elevators today. Expect heavy contractor traffic from 15:30.
+                        </p>
+</div>
+</div>
+</div>
+</div></div>
+</main>
+<style>
+        @keyframes scan {
+            0%, 100% { top: 0%; }
+            50% { top: 100%; }
+        }
+    </style>
+<script>
+        // Micro-interaction for checkout buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if(this.textContent === 'Check Out') {
+                    const row = this.closest('tr');
+                    row.style.opacity = '0.4';
+                    row.style.pointerEvents = 'none';
+                    this.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span>';
+                    setTimeout(() => {
+                        row.remove();
+                        // Update counter logic would go here
+                    }, 800);
+                }
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('shadow-lg');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('shadow-lg');
+        });
+    </script>
+
+
+</body></html>

@@ -5,6 +5,8 @@ import DashboardLayout from './components/layout/DashboardLayout';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import Spinner from './components/common/Spinner';
 
+import AuthLayout from './components/layout/AuthLayout';
+
 // Eagerly loaded components for fast initial paint
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -42,10 +44,13 @@ function App() {
       }>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+          </Route>
           
           {/* Admin Routes */}
           <Route path="/admin" element={<ProtectedRoute allowedRoles={['ADMIN']}><DashboardLayout /></ProtectedRoute>}>
